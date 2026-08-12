@@ -101,6 +101,7 @@ export type Property = {
   priceValue: number; // in lakhs
   image: string;
   highlights: string[];
+  description: string;
 };
 
 import plots from "@/assets/prop-plots.jpg";
@@ -227,6 +228,7 @@ export type Project = {
   status: "Featured" | "Completed" | "Ongoing";
   highlights: string[];
   gallery: string[];
+  description: string;
 };
 
 export const projects: Project[] = [
