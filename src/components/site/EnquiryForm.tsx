@@ -67,12 +67,12 @@ export function EnquiryForm({ presetProperty }: { presetProperty?: string }) {
         <div>
           <label htmlFor="name" className="text-sm font-medium">Name*</label>
           <input id="name" name="name" className={`${field} mt-1.5`} placeholder="Your full name" maxLength={80} />
-          {errors.name ? <p className="mt-1 text-xs text-destructive">{errors.name}</p> : null}
+          {errors["name"] ? <p className="mt-1 text-xs text-destructive">{errors["name"]}</p> : null}
         </div>
         <div>
           <label htmlFor="phone" className="text-sm font-medium">Phone Number*</label>
           <input id="phone" name="phone" inputMode="tel" className={`${field} mt-1.5`} placeholder="+91 XXXXX XXXXX" maxLength={16} />
-          {errors.phone ? <p className="mt-1 text-xs text-destructive">{errors.phone}</p> : null}
+          {errors["phone"] ? <p className="mt-1 text-xs text-destructive">{errors["phone"]}</p> : null}
         </div>
         <div>
           <label htmlFor="whatsapp" className="text-sm font-medium">WhatsApp Number</label>
