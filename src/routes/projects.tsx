@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Section, SectionHeading } from "@/components/site/Section";
 import { CtaBand } from "@/components/site/CtaBand";
-import { A, L } from "@/components/site/buttons";
+import { Link } from "@tanstack/react-router";
+import { A, btnStyles } from "@/components/site/buttons";
 import { projects, waLink } from "@/data/site";
 
 const title = "Projects & Portfolio | Completed Real Estate Projects — Mohit Gaur";
@@ -78,9 +79,9 @@ function Projects() {
                     ))}
                   </ul>
                   <div className="mt-7 flex flex-wrap gap-3">
-                    <L to="/projects/$id" params={{ id: p.id }} variant="primary">
+                    <Link to="/projects/$id" params={{ id: p.id }} className={btnStyles.primary}>
                       View Project
-                    </L>
+                    </Link>
                     <A
                       href={waLink(`Hello Mohit, please share details about the project ${p.name}, ${p.city}.`)}
                       target="_blank"
