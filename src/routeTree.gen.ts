@@ -19,6 +19,8 @@ import { Route as PropertiesRouteImport } from './routes/properties'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
+import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
+import { Route as PropertiesIdRouteImport } from './routes/properties.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +72,16 @@ const TestimonialsRoute = TestimonialsRouteImport.update({
   path: '/testimonials',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsIdRoute = ProjectsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ProjectsRoute,
+} as any)
+const PropertiesIdRoute = PropertiesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PropertiesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -77,11 +89,13 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
-  '/projects': typeof ProjectsRoute
-  '/properties': typeof PropertiesRoute
+  '/projects': typeof ProjectsRouteWithChildren
+  '/properties': typeof PropertiesRouteWithChildren
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
+  '/projects/$id': typeof ProjectsIdRoute
+  '/properties/$id': typeof PropertiesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -89,11 +103,13 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
-  '/projects': typeof ProjectsRoute
-  '/properties': typeof PropertiesRoute
+  '/projects': typeof ProjectsRouteWithChildren
+  '/properties': typeof PropertiesRouteWithChildren
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
+  '/projects/$id': typeof ProjectsIdRoute
+  '/properties/$id': typeof PropertiesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -102,11 +118,13 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
-  '/projects': typeof ProjectsRoute
-  '/properties': typeof PropertiesRoute
+  '/projects': typeof ProjectsRouteWithChildren
+  '/properties': typeof PropertiesRouteWithChildren
   '/services': typeof ServicesRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
+  '/projects/$id': typeof ProjectsIdRoute
+  '/properties/$id': typeof PropertiesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +139,8 @@ export interface FileRouteTypes {
     | '/services'
     | '/terms'
     | '/testimonials'
+    | '/projects/$id'
+    | '/properties/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +153,8 @@ export interface FileRouteTypes {
     | '/services'
     | '/terms'
     | '/testimonials'
+    | '/projects/$id'
+    | '/properties/$id'
   id:
     | '__root__'
     | '/'
@@ -145,6 +167,8 @@ export interface FileRouteTypes {
     | '/services'
     | '/terms'
     | '/testimonials'
+    | '/projects/$id'
+    | '/properties/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -153,8 +177,8 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   LocationsRoute: typeof LocationsRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
-  ProjectsRoute: typeof ProjectsRoute
-  PropertiesRoute: typeof PropertiesRoute
+  ProjectsRoute: typeof ProjectsRouteWithChildren
+  PropertiesRoute: typeof PropertiesRouteWithChildren
   ServicesRoute: typeof ServicesRoute
   TermsRoute: typeof TermsRoute
   TestimonialsRoute: typeof TestimonialsRoute
@@ -232,8 +256,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestimonialsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects/$id': {
+      id: '/projects/$id'
+      path: '/$id'
+      fullPath: '/projects/$id'
+      preLoaderRoute: typeof ProjectsIdRouteImport
+      parentRoute: typeof ProjectsRoute
+    }
+    '/properties/$id': {
+      id: '/properties/$id'
+      path: '/$id'
+      fullPath: '/properties/$id'
+      preLoaderRoute: typeof PropertiesIdRouteImport
+      parentRoute: typeof PropertiesRoute
+    }
   }
 }
+
+interface ProjectsRouteChildren {
+  ProjectsIdRoute: typeof ProjectsIdRoute
+}
+
+const ProjectsRouteChildren: ProjectsRouteChildren = {
+  ProjectsIdRoute: ProjectsIdRoute,
+}
+
+const ProjectsRouteWithChildren = ProjectsRoute._addFileChildren(
+  ProjectsRouteChildren,
+)
+
+interface PropertiesRouteChildren {
+  PropertiesIdRoute: typeof PropertiesIdRoute
+}
+
+const PropertiesRouteChildren: PropertiesRouteChildren = {
+  PropertiesIdRoute: PropertiesIdRoute,
+}
+
+const PropertiesRouteWithChildren = PropertiesRoute._addFileChildren(
+  PropertiesRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -241,8 +303,8 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   LocationsRoute: LocationsRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
-  ProjectsRoute: ProjectsRoute,
-  PropertiesRoute: PropertiesRoute,
+  ProjectsRoute: ProjectsRouteWithChildren,
+  PropertiesRoute: PropertiesRouteWithChildren,
   ServicesRoute: ServicesRoute,
   TermsRoute: TermsRoute,
   TestimonialsRoute: TestimonialsRoute,
@@ -250,13 +312,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
