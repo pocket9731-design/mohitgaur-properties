@@ -2,7 +2,7 @@ import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { MapPin, Maximize2, IndianRupee, Building2 } from "lucide-react";
 import { Section } from "@/components/site/Section";
 import { CtaBand } from "@/components/site/CtaBand";
-import { A, L } from "@/components/site/buttons";
+import { A, btnStyles } from "@/components/site/buttons";
 import { properties, site, waLink } from "@/data/site";
 
 export const Route = createFileRoute("/properties/$id")({
@@ -127,7 +127,7 @@ function PropertyDetail() {
             </dl>
 
             <ul className="mt-6 flex flex-wrap gap-2">
-              {p.highlights.map((h) => (
+              {p.highlights.map((h: string) => (
                 <li key={h} className="rounded-full bg-secondary px-3 py-1 text-xs text-secondary-foreground">
                   {h}
                 </li>
@@ -143,9 +143,9 @@ function PropertyDetail() {
               >
                 Enquire on WhatsApp
               </A>
-              <L to="/contact" search={{ property: p.name }} variant="gold">
+              <Link to="/contact" search={{ property: p.name }} className={btnStyles.gold}>
                 Book a Site Visit
-              </L>
+              </Link>
               <A href={`tel:${site.phone}`} variant="outline">
                 Call {site.phoneDisplay}
               </A>

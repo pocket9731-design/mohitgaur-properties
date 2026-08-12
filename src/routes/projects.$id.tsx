@@ -1,7 +1,7 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { Section } from "@/components/site/Section";
 import { CtaBand } from "@/components/site/CtaBand";
-import { A, L } from "@/components/site/buttons";
+import { A, btnStyles } from "@/components/site/buttons";
 import { projects, site, waLink } from "@/data/site";
 
 export const Route = createFileRoute("/projects/$id")({
@@ -105,7 +105,7 @@ function ProjectDetail() {
         </div>
 
         <div className="mt-10 grid gap-3 sm:grid-cols-3">
-          {p.gallery.map((g, i) => (
+          {p.gallery.map((g: string, i: number) => (
             <img
               key={g + i}
               src={g}
@@ -134,7 +134,7 @@ function ProjectDetail() {
         </dl>
 
         <ul className="mt-6 grid gap-2 text-sm text-muted-foreground sm:grid-cols-2">
-          {p.highlights.map((h) => (
+          {p.highlights.map((h: string) => (
             <li key={h} className="flex items-start gap-2">
               <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-gold" />
               {h}
@@ -151,9 +151,9 @@ function ProjectDetail() {
           >
             Enquire on WhatsApp
           </A>
-          <L to="/contact" search={{ property: p.name }} variant="gold">
+          <Link to="/contact" search={{ property: p.name }} className={btnStyles.gold}>
             Book a Site Visit
-          </L>
+          </Link>
         </div>
       </Section>
 
