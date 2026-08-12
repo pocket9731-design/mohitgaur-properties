@@ -101,6 +101,7 @@ export type Property = {
   priceValue: number; // in lakhs
   image: string;
   highlights: string[];
+  description: string;
 };
 
 import plots from "@/assets/prop-plots.jpg";
@@ -122,6 +123,23 @@ export const properties: Property[] = [
     priceValue: 32,
     image: plots,
     highlights: ["Gated township", "Clear title", "Ready for registry"],
+    description:
+      "Registry-ready residential plots of 1000–2000 sq.ft. inside a gated township on Inner Ring Road, Agra, with clear title, wide internal roads and park-facing options starting at ₹32 Lakh.",
+  },
+  {
+    id: "krishna-metro-city",
+    name: "Krishna Metro City",
+    location: "Ring Road",
+    city: "Agra",
+    type: "Residential Plots",
+    size: "900 – 2000 sq.ft.",
+    sizeSqft: 900,
+    price: "₹28 Lakh onwards",
+    priceValue: 28,
+    image: plots,
+    highlights: ["Gated township", "Ring Road frontage", "Registry ready", "Parks & wide roads"],
+    description:
+      "Krishna Metro City is a gated plotted township on Ring Road, Agra offering 900–2000 sq.ft. registry-ready residential plots with wide roads, parks, underground wiring and excellent appreciation potential from ₹28 Lakh.",
   },
   {
     id: "riverfront-villa",
@@ -135,6 +153,8 @@ export const properties: Property[] = [
     priceValue: 245,
     image: villa,
     highlights: ["Private lawn", "Corner plot", "Modular interiors"],
+    description:
+      "A 3200 sq.ft. 4 BHK signature villa on Fatehabad Road, Agra with a private lawn, corner-plot frontage and modular interiors — a ready luxury home priced at ₹2.45 Crore.",
   },
   {
     id: "expressway-heights",
@@ -148,6 +168,8 @@ export const properties: Property[] = [
     priceValue: 135,
     image: apartment,
     highlights: ["Ready to move", "Club & pool", "High rental yield"],
+    description:
+      "Ready-to-move 3 BHK apartment of 1450 sq.ft. in Sector 150, Noida with clubhouse, pool and strong rental yield along the Noida Expressway, priced at ₹1.35 Crore.",
   },
   {
     id: "sanjay-place-office",
@@ -161,6 +183,8 @@ export const properties: Property[] = [
     priceValue: 110,
     image: commercial,
     highlights: ["Pre-leased option", "Prime frontage", "Ample parking"],
+    description:
+      "A 2100 sq.ft. corporate floor in Sanjay Place, Agra's prime business belt — pre-leased option, prime frontage and ample parking at ₹1.10 Crore.",
   },
   {
     id: "jewar-land-bank",
@@ -174,6 +198,8 @@ export const properties: Property[] = [
     priceValue: 58,
     image: plots,
     highlights: ["Airport corridor", "High appreciation", "Authority approved"],
+    description:
+      "1800 sq.ft. authority-approved investment land on the Yamuna Expressway near the Jewar Airport corridor, Greater Noida — high appreciation potential at ₹58 Lakh.",
   },
   {
     id: "palm-court-villa",
@@ -187,6 +213,8 @@ export const properties: Property[] = [
     priceValue: 165,
     image: villa2,
     highlights: ["JDA approved", "Landscaped garden", "Vastu compliant"],
+    description:
+      "JDA-approved 4 BHK duplex villa of 2400 sq.ft. on Ajmer Road, Jaipur with a landscaped garden and Vastu-compliant layout, priced at ₹1.65 Crore.",
   },
   {
     id: "shaheed-path-homes",
@@ -200,6 +228,8 @@ export const properties: Property[] = [
     priceValue: 72,
     image: apartment,
     highlights: ["Bank loan approved", "Under construction", "Flexi payment"],
+    description:
+      "Bank loan approved 2 BHK smart home of 1150 sq.ft. on Shaheed Path, Lucknow — under construction with flexi payment plans at ₹72 Lakh.",
   },
   {
     id: "golf-extn-residences",
@@ -213,6 +243,8 @@ export const properties: Property[] = [
     priceValue: 420,
     image: apartment,
     highlights: ["Low density", "Concierge services", "Metro connectivity"],
+    description:
+      "Low-density 4 BHK residence of 2650 sq.ft. on Golf Course Extension Road, Gurugram with concierge services and metro connectivity, priced at ₹4.20 Crore.",
   },
 ];
 
@@ -227,6 +259,7 @@ export type Project = {
   status: "Featured" | "Completed" | "Ongoing";
   highlights: string[];
   gallery: string[];
+  description: string;
 };
 
 export const projects: Project[] = [
@@ -240,7 +273,23 @@ export const projects: Project[] = [
     price: "₹32 Lakh onwards",
     status: "Featured",
     highlights: ["Gated community", "Wide internal roads", "Registry ready", "Park facing options"],
+    description:
+      "Shanti Greens Township on Inner Ring Road, Agra — a gated plotted development with 1000/1500/2000 sq.ft. registry-ready plots, wide internal roads and park-facing options from ₹32 Lakh.",
     gallery: [plots, villa2, villa],
+  },
+  {
+    id: "krishna-metro-city-project",
+    name: "Krishna Metro City",
+    city: "Agra",
+    location: "Ring Road",
+    type: "Residential Plots",
+    sizes: "900 / 1200 / 1500 / 2000 sq.ft.",
+    price: "₹28 Lakh onwards",
+    status: "Featured",
+    highlights: ["Ring Road frontage", "Gated plotted township", "Underground wiring", "Parks & open spaces"],
+    description:
+      "Krishna Metro City, Ring Road Agra — a featured gated plotted township offering 900–2000 sq.ft. registry-ready plots with parks, wide roads and strong investment growth from ₹28 Lakh.",
+    gallery: [plots, villa2, apartment],
   },
   {
     id: "riverfront-villas",
@@ -252,6 +301,8 @@ export const projects: Project[] = [
     price: "₹1.85 Cr onwards",
     status: "Completed",
     highlights: ["24 villas delivered", "Private lawns", "Premium fittings", "Full documentation support"],
+    description:
+      "Riverfront Villas on Fatehabad Road, Agra — 24 delivered luxury villas of 2400–3200 sq.ft. with private lawns, premium fittings and complete documentation support from ₹1.85 Crore.",
     gallery: [villa, villa2, plots],
   },
   {
@@ -264,6 +315,8 @@ export const projects: Project[] = [
     price: "₹98 Lakh onwards",
     status: "Ongoing",
     highlights: ["80% open green", "Sports township", "Metro linked", "Investor friendly"],
+    description:
+      "Expressway Heights, Sector 150 Noida — an ongoing sports township of 1150–1850 sq.ft. apartments with 80% open green and metro connectivity from ₹98 Lakh.",
     gallery: [apartment, commercial, villa],
   },
   {
@@ -276,6 +329,8 @@ export const projects: Project[] = [
     price: "₹45 Lakh onwards",
     status: "Featured",
     highlights: ["Prime commercial belt", "Pre-leased options", "Assured rental", "High footfall"],
+    description:
+      "Sanjay Place Business Hub, Agra — commercial units of 600–2100 sq.ft. in the city's prime business belt with pre-leased and assured rental options from ₹45 Lakh.",
     gallery: [commercial, apartment, plots],
   },
 ];
