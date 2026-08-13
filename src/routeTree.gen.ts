@@ -14,13 +14,13 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
-import { Route as ProjectsRouteImport } from './routes/projects'
-import { Route as PropertiesRouteImport } from './routes/properties'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as TestimonialsRouteImport } from './routes/testimonials'
+import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
+import { Route as PropertiesIndexRouteImport } from './routes/properties.index'
 import { Route as PropertiesIdRouteImport } from './routes/properties.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -48,16 +48,6 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsRoute = ProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PropertiesRoute = PropertiesRouteImport.update({
-  id: '/properties',
-  path: '/properties',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
@@ -78,10 +68,20 @@ const TestimonialsRoute = TestimonialsRouteImport.update({
   path: '/testimonials',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
+  id: '/projects/',
+  path: '/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProjectsIdRoute = ProjectsIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => ProjectsRoute,
+} as any)
+const PropertiesIndexRoute = PropertiesIndexRouteImport.update({
+  id: '/properties/',
+  path: '/properties/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PropertiesIdRoute = PropertiesIdRouteImport.update({
   id: '/$id',
@@ -95,14 +95,14 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
-  '/projects': typeof ProjectsRouteWithChildren
-  '/properties': typeof PropertiesRouteWithChildren
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/properties/$id': typeof PropertiesIdRoute
+  '/projects/': typeof ProjectsIndexRoute
+  '/properties/': typeof PropertiesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -110,14 +110,14 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
-  '/projects': typeof ProjectsRouteWithChildren
-  '/properties': typeof PropertiesRouteWithChildren
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/properties/$id': typeof PropertiesIdRoute
+  '/projects': typeof ProjectsIndexRoute
+  '/properties': typeof PropertiesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -126,14 +126,14 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/locations': typeof LocationsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
-  '/projects': typeof ProjectsRouteWithChildren
-  '/properties': typeof PropertiesRouteWithChildren
   '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/properties/$id': typeof PropertiesIdRoute
+  '/projects/': typeof ProjectsIndexRoute
+  '/properties/': typeof PropertiesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -143,14 +143,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/locations'
     | '/privacy-policy'
-    | '/projects'
-    | '/properties'
     | '/services'
     | '/sitemap.xml'
     | '/terms'
     | '/testimonials'
     | '/projects/$id'
     | '/properties/$id'
+    | '/projects/'
+    | '/properties/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -158,14 +158,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/locations'
     | '/privacy-policy'
-    | '/projects'
-    | '/properties'
     | '/services'
     | '/sitemap.xml'
     | '/terms'
     | '/testimonials'
     | '/projects/$id'
     | '/properties/$id'
+    | '/projects'
+    | '/properties'
   id:
     | '__root__'
     | '/'
@@ -173,14 +173,14 @@ export interface FileRouteTypes {
     | '/contact'
     | '/locations'
     | '/privacy-policy'
-    | '/projects'
-    | '/properties'
     | '/services'
     | '/sitemap.xml'
     | '/terms'
     | '/testimonials'
     | '/projects/$id'
     | '/properties/$id'
+    | '/projects/'
+    | '/properties/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -189,12 +189,12 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   LocationsRoute: typeof LocationsRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
-  ProjectsRoute: typeof ProjectsRouteWithChildren
-  PropertiesRoute: typeof PropertiesRouteWithChildren
   ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   TestimonialsRoute: typeof TestimonialsRoute
+  ProjectsIndexRoute: typeof ProjectsIndexRoute
+  PropertiesIndexRoute: typeof PropertiesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -234,20 +234,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projects': {
-      id: '/projects'
-      path: '/projects'
-      fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/properties': {
-      id: '/properties'
-      path: '/properties'
-      fullPath: '/properties'
-      preLoaderRoute: typeof PropertiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/services': {
       id: '/services'
       path: '/services'
@@ -276,12 +262,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestimonialsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects/': {
+      id: '/projects/'
+      path: '/projects'
+      fullPath: '/projects/'
+      preLoaderRoute: typeof ProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/projects/$id': {
       id: '/projects/$id'
       path: '/$id'
       fullPath: '/projects/$id'
       preLoaderRoute: typeof ProjectsIdRouteImport
       parentRoute: typeof ProjectsRoute
+    }
+    '/properties/': {
+      id: '/properties/'
+      path: '/properties'
+      fullPath: '/properties/'
+      preLoaderRoute: typeof PropertiesIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/properties/$id': {
       id: '/properties/$id'
@@ -293,42 +293,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface ProjectsRouteChildren {
-  ProjectsIdRoute: typeof ProjectsIdRoute
-}
-
-const ProjectsRouteChildren: ProjectsRouteChildren = {
-  ProjectsIdRoute: ProjectsIdRoute,
-}
-
-const ProjectsRouteWithChildren = ProjectsRoute._addFileChildren(
-  ProjectsRouteChildren,
-)
-
-interface PropertiesRouteChildren {
-  PropertiesIdRoute: typeof PropertiesIdRoute
-}
-
-const PropertiesRouteChildren: PropertiesRouteChildren = {
-  PropertiesIdRoute: PropertiesIdRoute,
-}
-
-const PropertiesRouteWithChildren = PropertiesRoute._addFileChildren(
-  PropertiesRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   LocationsRoute: LocationsRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
-  ProjectsRoute: ProjectsRouteWithChildren,
-  PropertiesRoute: PropertiesRouteWithChildren,
   ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   TestimonialsRoute: TestimonialsRoute,
+  ProjectsIndexRoute: ProjectsIndexRoute,
+  PropertiesIndexRoute: PropertiesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
