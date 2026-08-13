@@ -8,7 +8,7 @@ export const site = {
   role: "Real Estate Consultant",
   tagline: "Find the Right Property. Make the Right Investment.",
   // TODO: replace with real details
-  phone: "917983551233",
+  phone: "+917983551233",
   phoneDisplay: "+91 79835 51233",
   whatsapp: "917983551233",
   email: "mohitgaur9731@gmail.com",
