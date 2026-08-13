@@ -8,10 +8,10 @@ export const site = {
   role: "Real Estate Consultant",
   tagline: "Find the Right Property. Make the Right Investment.",
   // TODO: replace with real details
-  phone: "+919876543210",
-  phoneDisplay: "+91 98765 43210",
-  whatsapp: "919876543210",
-  email: "contact@mohitgaur.in",
+  phone: "+917983551233",
+  phoneDisplay: "+91 79835 51233",
+  whatsapp: "917983551233",
+  email: "mohitgaur9731@gmail.com",
   city: "Agra, Uttar Pradesh",
   address: "Sanjay Place, Agra, Uttar Pradesh 282002, India",
   mapsEmbed:
