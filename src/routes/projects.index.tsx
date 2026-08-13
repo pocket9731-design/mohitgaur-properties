@@ -9,7 +9,7 @@ const title = "Projects & Portfolio | Completed Real Estate Projects — Mohit G
 const description =
   "Featured and completed real estate projects — plotted townships, villas, apartments and commercial hubs in Agra, Noida and beyond, with sizes, pricing and highlights.";
 
-export const Route = createFileRoute("/projects")({
+export const Route = createFileRoute("/projects/")({
   head: () => ({
     meta: [
       { title },

@@ -9,7 +9,7 @@ const title = "Property for Sale in Agra | Plots, Villas & Flats — Mohit Gaur"
 const description =
   "Browse verified plots, villas, flats, commercial and investment properties for sale in Agra, Noida, Gurugram, Lucknow and Jaipur. Filter by location, type, budget and size.";
 
-export const Route = createFileRoute("/properties")({
+export const Route = createFileRoute("/properties/")({
   head: () => ({
     meta: [
       { title },
