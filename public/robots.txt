@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /privacy-policy
 Disallow: /terms
+
+Sitemap: https://mohitgaur-properties.lovable.app/sitemap.xml
