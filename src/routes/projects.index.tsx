@@ -9,14 +9,20 @@ const title = "Projects & Portfolio | Completed Real Estate Projects — Mohit G
 const description =
   "Featured and completed real estate projects — plotted townships, villas, apartments and commercial hubs in Agra, Noida and beyond, with sizes, pricing and highlights.";
 
-export const Route = createFileRoute("/projects")({
+export const Route = createFileRoute("/projects/")({
   head: () => ({
     meta: [
       { title },
       { name: "description", content: description },
       { property: "og:title", content: title },
       { property: "og:description", content: description },
+      { property: "og:url", content: "https://mohitgaur-properties.lovable.app/projects" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: title },
+      { name: "twitter:description", content: description },
     ],
+    links: [{ rel: "canonical", href: "https://mohitgaur-properties.lovable.app/projects" }],
   }),
   component: Projects,
 });
