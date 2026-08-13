@@ -22,10 +22,10 @@ export const Route = createFileRoute("/projects/$id")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "product" },
-        { property: "og:url", content: `/projects/${params.id}` },
+        { property: "og:url", content: `https://mohitgaur-properties.lovable.app/projects/${params.id}` },
         { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: [{ rel: "canonical", href: `/projects/${params.id}` }],
+      links: [{ rel: "canonical", href: `https://mohitgaur-properties.lovable.app/projects/${params.id}` }],
       scripts: [
         {
           type: "application/ld+json",
@@ -34,7 +34,7 @@ export const Route = createFileRoute("/projects/$id")({
             "@type": "RealEstateListing",
             name: p.name,
             description: p.description,
-            url: `/projects/${p.id}`,
+            url: `https://mohitgaur-properties.lovable.app/projects/${p.id}`,
             address: {
               "@type": "PostalAddress",
               streetAddress: p.location,
@@ -67,9 +67,9 @@ export const Route = createFileRoute("/projects/$id")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-              { "@type": "ListItem", position: 2, name: "Projects", item: "/projects" },
-              { "@type": "ListItem", position: 3, name: p.name, item: `/projects/${p.id}` },
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://mohitgaur-properties.lovable.app/" },
+              { "@type": "ListItem", position: 2, name: "Projects", item: "https://mohitgaur-properties.lovable.app/projects" },
+              { "@type": "ListItem", position: 3, name: p.name, item: `https://mohitgaur-properties.lovable.app/projects/${p.id}` },
             ],
           }),
         },

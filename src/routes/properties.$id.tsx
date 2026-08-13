@@ -23,10 +23,10 @@ export const Route = createFileRoute("/properties/$id")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "product" },
-        { property: "og:url", content: `/properties/${params.id}` },
+        { property: "og:url", content: `https://mohitgaur-properties.lovable.app/properties/${params.id}` },
         { name: "twitter:card", content: "summary_large_image" },
       ],
-      links: [{ rel: "canonical", href: `/properties/${params.id}` }],
+      links: [{ rel: "canonical", href: `https://mohitgaur-properties.lovable.app/properties/${params.id}` }],
       scripts: [
         {
           type: "application/ld+json",
@@ -35,7 +35,7 @@ export const Route = createFileRoute("/properties/$id")({
             "@type": "RealEstateListing",
             name: p.name,
             description: p.description,
-            url: `/properties/${p.id}`,
+            url: `https://mohitgaur-properties.lovable.app/properties/${p.id}`,
             datePosted: "2026-01-01",
             floorSize: { "@type": "QuantitativeValue", value: p.sizeSqft, unitCode: "FTK" },
             address: {
@@ -65,9 +65,9 @@ export const Route = createFileRoute("/properties/$id")({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-              { "@type": "ListItem", position: 2, name: "Properties", item: "/properties" },
-              { "@type": "ListItem", position: 3, name: p.name, item: `/properties/${p.id}` },
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://mohitgaur-properties.lovable.app/" },
+              { "@type": "ListItem", position: 2, name: "Properties", item: "https://mohitgaur-properties.lovable.app/properties" },
+              { "@type": "ListItem", position: 3, name: p.name, item: `https://mohitgaur-properties.lovable.app/properties/${p.id}` },
             ],
           }),
         },
