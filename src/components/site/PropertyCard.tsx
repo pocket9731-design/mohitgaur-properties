@@ -60,7 +60,7 @@ export function PropertyCard({ p }: { p: Property }) {
           ))}
         </ul>
 
-        <div className="mt-6 flex flex-wrap gap-2 pt-0 [margin-top:auto]">
+        <div className="mt-auto flex flex-wrap gap-2 pt-6">
           <Link
             to="/properties/$id"
             params={{ id: p.id }}
