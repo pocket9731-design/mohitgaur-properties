@@ -89,6 +89,8 @@ export const locations = [
   },
 ];
 
+export type PropertyStatus = "For Sale" | "For Rent" | "Sold";
+
 export type Property = {
   id: string;
   name: string;
@@ -100,8 +102,26 @@ export type Property = {
   price: string;
   priceValue: number; // in lakhs
   image: string;
+  images: string[];
   highlights: string[];
   description: string;
+  status: PropertyStatus;
+  bedrooms: number;
+  bathrooms: number;
+  parking: number;
+  amenities: string[];
+  latitude: number;
+  longitude: number;
+  createdAt: string;
+};
+
+export const agent = {
+  name: site.name,
+  role: site.role,
+  phone: site.phone,
+  phoneDisplay: site.phoneDisplay,
+  email: site.email,
+  whatsapp: site.whatsapp,
 };
 
 import plots from "@/assets/prop-plots.jpg";
@@ -125,6 +145,15 @@ export const properties: Property[] = [
     highlights: ["Gated township", "Clear title", "Ready for registry"],
     description:
       "Registry-ready residential plots of 1000–2000 sq.ft. inside a gated township on Inner Ring Road, Agra, with clear title, wide internal roads and park-facing options starting at ₹32 Lakh.",
+    images: [plots, villa2, commercial],
+    status: "For Sale",
+    bedrooms: 0,
+    bathrooms: 0,
+    parking: 2,
+    amenities: ["Gated Security", "Wide Internal Roads", "Park Facing", "Power Backup", "Underground Wiring", "Water Supply"],
+    latitude: 27.1592,
+    longitude: 77.991,
+    createdAt: "2026-01-08",
   },
   {
     id: "krishna-metro-city",
@@ -140,6 +169,15 @@ export const properties: Property[] = [
     highlights: ["Gated township", "Ring Road frontage", "Registry ready", "Parks & wide roads"],
     description:
       "Krishna Metro City is a gated plotted township on Ring Road, Agra offering 900–2000 sq.ft. registry-ready residential plots with wide roads, parks, underground wiring and excellent appreciation potential from ₹28 Lakh.",
+    images: [plots, villa, apartment],
+    status: "For Sale",
+    bedrooms: 0,
+    bathrooms: 0,
+    parking: 2,
+    amenities: ["Gated Security", "Parks & Green Belt", "Wide Roads", "Underground Wiring", "Street Lighting", "Registry Ready"],
+    latitude: 27.213,
+    longitude: 78.008,
+    createdAt: "2026-02-02",
   },
   {
     id: "riverfront-villa",
@@ -155,6 +193,15 @@ export const properties: Property[] = [
     highlights: ["Private lawn", "Corner plot", "Modular interiors"],
     description:
       "A 3200 sq.ft. 4 BHK signature villa on Fatehabad Road, Agra with a private lawn, corner-plot frontage and modular interiors — a ready luxury home priced at ₹2.45 Crore.",
+    images: [villa, villa2, apartment],
+    status: "For Sale",
+    bedrooms: 4,
+    bathrooms: 4,
+    parking: 2,
+    amenities: ["Private Lawn", "Modular Kitchen", "Air Conditioning", "Security", "Power Backup", "Furnished"],
+    latitude: 27.1585,
+    longitude: 78.05,
+    createdAt: "2026-01-20",
   },
   {
     id: "expressway-heights",
@@ -170,6 +217,15 @@ export const properties: Property[] = [
     highlights: ["Ready to move", "Club & pool", "High rental yield"],
     description:
       "Ready-to-move 3 BHK apartment of 1450 sq.ft. in Sector 150, Noida with clubhouse, pool and strong rental yield along the Noida Expressway, priced at ₹1.35 Crore.",
+    images: [apartment, villa2, commercial],
+    status: "For Sale",
+    bedrooms: 3,
+    bathrooms: 3,
+    parking: 1,
+    amenities: ["Swimming Pool", "Gymnasium", "Clubhouse", "Security", "Power Backup", "Balcony"],
+    latitude: 28.43,
+    longitude: 77.53,
+    createdAt: "2026-01-15",
   },
   {
     id: "sanjay-place-office",
@@ -185,6 +241,15 @@ export const properties: Property[] = [
     highlights: ["Pre-leased option", "Prime frontage", "Ample parking"],
     description:
       "A 2100 sq.ft. corporate floor in Sanjay Place, Agra's prime business belt — pre-leased option, prime frontage and ample parking at ₹1.10 Crore.",
+    images: [commercial, apartment, plots],
+    status: "For Sale",
+    bedrooms: 0,
+    bathrooms: 2,
+    parking: 6,
+    amenities: ["Lift Access", "Power Backup", "Security", "Ample Parking", "Air Conditioning", "Prime Frontage"],
+    latitude: 27.199,
+    longitude: 78.008,
+    createdAt: "2025-12-28",
   },
   {
     id: "jewar-land-bank",
@@ -200,6 +265,15 @@ export const properties: Property[] = [
     highlights: ["Airport corridor", "High appreciation", "Authority approved"],
     description:
       "1800 sq.ft. authority-approved investment land on the Yamuna Expressway near the Jewar Airport corridor, Greater Noida — high appreciation potential at ₹58 Lakh.",
+    images: [plots, commercial, villa2],
+    status: "For Sale",
+    bedrooms: 0,
+    bathrooms: 0,
+    parking: 2,
+    amenities: ["Authority Approved", "Airport Corridor", "Wide Roads", "Clear Title"],
+    latitude: 28.12,
+    longitude: 77.61,
+    createdAt: "2026-01-05",
   },
   {
     id: "palm-court-villa",
@@ -215,6 +289,15 @@ export const properties: Property[] = [
     highlights: ["JDA approved", "Landscaped garden", "Vastu compliant"],
     description:
       "JDA-approved 4 BHK duplex villa of 2400 sq.ft. on Ajmer Road, Jaipur with a landscaped garden and Vastu-compliant layout, priced at ₹1.65 Crore.",
+    images: [villa2, villa, apartment],
+    status: "For Sale",
+    bedrooms: 4,
+    bathrooms: 4,
+    parking: 2,
+    amenities: ["Landscaped Garden", "Vastu Compliant", "Security", "Power Backup", "Balcony", "Modular Kitchen"],
+    latitude: 26.87,
+    longitude: 75.7,
+    createdAt: "2026-02-10",
   },
   {
     id: "shaheed-path-homes",
@@ -230,6 +313,15 @@ export const properties: Property[] = [
     highlights: ["Bank loan approved", "Under construction", "Flexi payment"],
     description:
       "Bank loan approved 2 BHK smart home of 1150 sq.ft. on Shaheed Path, Lucknow — under construction with flexi payment plans at ₹72 Lakh.",
+    images: [apartment, villa2, plots],
+    status: "For Sale",
+    bedrooms: 2,
+    bathrooms: 2,
+    parking: 1,
+    amenities: ["Clubhouse", "Gymnasium", "Security", "Power Backup", "Kids Play Area", "Balcony"],
+    latitude: 26.78,
+    longitude: 80.98,
+    createdAt: "2026-01-30",
   },
   {
     id: "golf-extn-residences",
@@ -245,6 +337,15 @@ export const properties: Property[] = [
     highlights: ["Low density", "Concierge services", "Metro connectivity"],
     description:
       "Low-density 4 BHK residence of 2650 sq.ft. on Golf Course Extension Road, Gurugram with concierge services and metro connectivity, priced at ₹4.20 Crore.",
+    images: [apartment, villa, commercial],
+    status: "For Sale",
+    bedrooms: 4,
+    bathrooms: 4,
+    parking: 2,
+    amenities: ["Swimming Pool", "Gymnasium", "Concierge", "Security", "Air Conditioning", "Power Backup"],
+    latitude: 28.42,
+    longitude: 77.07,
+    createdAt: "2026-02-05",
   },
 ];
 
