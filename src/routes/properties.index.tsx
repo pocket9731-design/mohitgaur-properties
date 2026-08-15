@@ -4,7 +4,8 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import { Section, SectionHeading } from "@/components/site/Section";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { CtaBand } from "@/components/site/CtaBand";
-import { properties, propertyTypes } from "@/data/site";
+import { propertyTypes } from "@/data/site";
+import { fetchProperties } from "@/lib/properties.functions";
 
 const title = "Property for Sale in Agra | Plots, Villas & Flats — Mohit Gaur";
 const description =
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/properties/")({
     ],
     links: [{ rel: "canonical", href: "https://mohitgaur-properties.lovable.app/properties" }],
   }),
+  loader: () => fetchProperties(),
   component: Properties,
 });
 
@@ -41,7 +43,8 @@ const field =
 const label = "grid gap-1.5 text-sm font-medium";
 
 function Properties() {
-  const cities = useMemo(() => Array.from(new Set(properties.map((p) => p.city))).sort(), []);
+  const properties = Route.useLoaderData();
+  const cities = useMemo(() => Array.from(new Set(properties.map((p) => p.city))).sort(), [properties]);
 
   const [q, setQ] = useState("");
   const [city, setCity] = useState("");
@@ -77,7 +80,7 @@ function Properties() {
     if (sort === "asc") return [...list].sort((a, b) => a.priceValue - b.priceValue);
     if (sort === "desc") return [...list].sort((a, b) => b.priceValue - a.priceValue);
     return list;
-  }, [q, city, type, minPrice, maxPrice, beds, baths, area, sort]);
+  }, [properties, q, city, type, minPrice, maxPrice, beds, baths, area, sort]);
 
   const reset = () => {
     setQ("");

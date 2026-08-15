@@ -19,26 +19,17 @@ import { CtaBand } from "@/components/site/CtaBand";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { PropertyGallery } from "@/components/site/PropertyGallery";
 import { A, btnStyles } from "@/components/site/buttons";
-import { properties, site, agent, waLink } from "@/data/site";
+import { site, agent, waLink } from "@/data/site";
+import { fetchProperties } from "@/lib/properties.functions";
+import { similarProperties } from "@/lib/property-mapper";
 import profileImg from "@/assets/profile-mohit.jpg";
 
 export const Route = createFileRoute("/properties/$id")({
-  loader: ({ params }) => {
-    const property = properties.find((p) => p.id === params.id);
+  loader: async ({ params }) => {
+    const all = await fetchProperties();
+    const property = all.find((p) => p.id === params.id);
     if (!property) throw notFound();
-    const similar = properties
-      .filter((p) => p.id !== property.id)
-      .map((p) => ({
-        p,
-        score:
-          (p.city === property.city ? 3 : 0) +
-          (p.type === property.type ? 2 : 0) +
-          (Math.abs(p.priceValue - property.priceValue) <= property.priceValue * 0.6 ? 1 : 0),
-      }))
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 3)
-      .map((x) => x.p);
-    return { property, similar };
+    return { property, similar: similarProperties(all, property) };
   },
   head: ({ params, loaderData }) => {
     const p = loaderData?.property;
