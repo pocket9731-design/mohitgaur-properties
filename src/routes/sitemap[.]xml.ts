@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { properties, projects } from "@/data/site";
+import { projects } from "@/data/site";
+import { loadProperties } from "@/lib/properties.server";
 
 const BASE_URL = "https://mohitgaur-properties.lovable.app";
 
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
+        const properties = await loadProperties();
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/properties", changefreq: "daily", priority: "0.9" },

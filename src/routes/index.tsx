@@ -7,7 +7,8 @@ import { Section, SectionHeading } from "@/components/site/Section";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { CtaBand } from "@/components/site/CtaBand";
 import { A, L } from "@/components/site/buttons";
-import { properties, services, site, testimonials, waLink, whyChooseMe } from "@/data/site";
+import { services, site, testimonials, waLink, whyChooseMe } from "@/data/site";
+import { fetchProperties } from "@/lib/properties.functions";
 
 const title = "Real Estate Consultant in Agra | Mohit Gaur — Plots, Villas & Property";
 const description =
@@ -28,13 +29,14 @@ export const Route = createFileRoute("/")({
     ],
     links: [{ rel: "canonical", href: "https://mohitgaur-properties.lovable.app" }],
   }),
+  loader: () => fetchProperties(),
   component: Index,
 });
 
 const icons = [MapPinned, BadgeCheck, ShieldCheck, Handshake, Sparkles];
 
 function Index() {
-  const featured = properties.slice(0, 3);
+  const featured = Route.useLoaderData().slice(0, 3);
 
   return (
     <>
