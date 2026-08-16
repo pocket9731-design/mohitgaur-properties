@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { projects } from "@/data/site";
 import { loadProperties } from "@/lib/properties.server";
+import { loadUpcomingProjects } from "@/lib/upcoming.server";
 
 const BASE_URL = "https://mohitgaur-properties.lovable.app";
 
@@ -16,10 +17,12 @@ export const Route = createFileRoute("/sitemap.xml")({
     handlers: {
       GET: async () => {
         const properties = await loadProperties();
+        const upcoming = await loadUpcomingProjects();
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/properties", changefreq: "daily", priority: "0.9" },
           { path: "/projects", changefreq: "weekly", priority: "0.8" },
+          { path: "/upcoming-projects", changefreq: "weekly", priority: "0.8" },
           { path: "/services", changefreq: "monthly", priority: "0.7" },
           { path: "/locations", changefreq: "monthly", priority: "0.7" },
           { path: "/about", changefreq: "monthly", priority: "0.6" },
@@ -29,6 +32,11 @@ export const Route = createFileRoute("/sitemap.xml")({
             path: `/properties/${p.id}`,
             changefreq: "weekly" as const,
             priority: "0.8",
+          })),
+          ...upcoming.map((p) => ({
+            path: `/upcoming-projects/${p.id}`,
+            changefreq: "weekly" as const,
+            priority: "0.7",
           })),
           ...projects.map((p) => ({
             path: `/projects/${p.id}`,

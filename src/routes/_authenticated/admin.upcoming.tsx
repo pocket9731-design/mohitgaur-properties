@@ -1,32 +1,34 @@
-import { useEffect, useMemo, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plus, Pencil, Trash2, Upload, X, LogOut, ImageIcon } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, X, ImageIcon, Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { Section } from "@/components/site/Section";
-import { B } from "@/components/site/buttons";
+import { B, btnStyles } from "@/components/site/buttons";
 import { supabase } from "@/integrations/supabase/client";
-import { propertyTypes, type Property } from "@/data/site";
+import { propertyTypes } from "@/data/site";
 import {
-  PROPERTY_COLUMNS,
-  rowToProperty,
-  propertyToRow,
-  type PropertyRow,
-} from "@/lib/property-mapper";
+  UPCOMING_COLUMNS,
+  rowToUpcoming,
+  upcomingToRow,
+  emptyUpcoming,
+  type UpcomingProject,
+  type UpcomingProjectRow,
+} from "@/lib/upcoming-mapper";
 
-export const Route = createFileRoute("/_authenticated/admin")({
+export const Route = createFileRoute("/_authenticated/admin/upcoming")({
   head: () => ({
     meta: [
-      { title: "Manage Properties | Mohit Gaur" },
-      { name: "description", content: "Add, edit and remove property listings for the website." },
+      { title: "Manage Upcoming Projects | Mohit Gaur" },
+      { name: "description", content: "Add, edit, publish and remove upcoming real-estate projects." },
       { name: "robots", content: "noindex,nofollow" },
-      { property: "og:title", content: "Manage Properties" },
-      { property: "og:description", content: "Owner dashboard for property listings." },
+      { property: "og:title", content: "Manage Upcoming Projects" },
+      { property: "og:description", content: "Owner dashboard for upcoming projects." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: AdminPage,
+  component: AdminUpcoming,
 });
 
 const field =
@@ -40,162 +42,118 @@ const slugify = (v: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
-const emptyProperty = (): Property => ({
-  id: "",
-  name: "",
-  location: "",
-  city: "Agra",
-  type: "Residential Plots",
-  size: "",
-  sizeSqft: 0,
-  price: "",
-  priceValue: 0,
-  image: "",
-  images: [],
-  highlights: [],
-  description: "",
-  status: "For Sale",
-  bedrooms: 0,
-  bathrooms: 0,
-  parking: 0,
-  amenities: [],
-  latitude: 0,
-  longitude: 0,
-  createdAt: new Date().toISOString().slice(0, 10),
-});
+const lines = (v: string) =>
+  v
+    .split("\n")
+    .map((x) => x.trim())
+    .filter(Boolean);
 
-async function fetchAll(): Promise<Property[]> {
+async function fetchAll(): Promise<UpcomingProject[]> {
   const { data, error } = await supabase
-    .from("properties")
-    .select(PROPERTY_COLUMNS)
-    .order("created_at", { ascending: false });
+    .from("upcoming_projects")
+    .select(UPCOMING_COLUMNS)
+    .order("sort_order", { ascending: true });
   if (error) throw new Error(error.message);
-  return ((data ?? []) as unknown as PropertyRow[]).map(rowToProperty);
+  return ((data ?? []) as unknown as UpcomingProjectRow[]).map(rowToUpcoming);
 }
 
-function AdminPage() {
-  const navigate = useNavigate();
+function AdminUpcoming() {
   const qc = useQueryClient();
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
-  const [editing, setEditing] = useState<Property | null>(null);
+  const [editing, setEditing] = useState<UpcomingProject | null>(null);
 
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      const { data: userData } = await supabase.auth.getUser();
-      const uid = userData.user?.id;
-      if (!uid) return;
-      const { data } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", uid)
-        .eq("role", "admin")
-        .maybeSingle();
-      if (active) setIsAdmin(Boolean(data));
-    })();
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  const list = useQuery({ queryKey: ["admin-properties"], queryFn: fetchAll });
+  const list = useQuery({ queryKey: ["admin-upcoming"], queryFn: fetchAll });
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("properties").delete().eq("id", id);
+      const { error } = await supabase.from("upcoming_projects").delete().eq("id", id);
       if (error) throw new Error(error.message);
     },
     onSuccess: () => {
-      toast.success("Property removed");
-      qc.invalidateQueries({ queryKey: ["admin-properties"] });
+      toast.success("Project removed");
+      qc.invalidateQueries({ queryKey: ["admin-upcoming"] });
     },
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const signOut = async () => {
-    await supabase.auth.signOut();
-    navigate({ to: "/" });
-  };
-
-  if (isAdmin === false) {
-    return (
-      <Section>
-        <div className="mx-auto max-w-lg rounded-3xl border border-dashed border-border p-12 text-center">
-          <h1 className="text-2xl">No admin access</h1>
-          <p className="mt-3 text-sm text-muted-foreground">
-            This account is not allowed to manage listings. Sign in with the owner account.
-          </p>
-          <B variant="outline" className="mt-6" onClick={signOut}>
-            Sign out
-          </B>
-        </div>
-      </Section>
-    );
-  }
+  const togglePublish = useMutation({
+    mutationFn: async (p: UpcomingProject) => {
+      const { error } = await supabase
+        .from("upcoming_projects")
+        .update({ published: !p.published } as never)
+        .eq("id", p.id);
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-upcoming"] }),
+    onError: (e: Error) => toast.error(e.message),
+  });
 
   return (
     <Section>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="eyebrow">Owner dashboard</p>
-          <h1 className="mt-3 text-3xl">Manage properties</h1>
+          <h1 className="mt-3 text-3xl">Upcoming projects</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Changes appear on the public website immediately.
+            Published projects appear on the public Upcoming Projects page immediately.
           </p>
         </div>
-        <div className="flex gap-3">
-          <B variant="gold" onClick={() => setEditing(emptyProperty())}>
-            <Plus className="size-4" /> Add property
+        <div className="flex flex-wrap gap-3">
+          <B variant="gold" onClick={() => setEditing(emptyUpcoming())}>
+            <Plus className="size-4" /> Add project
           </B>
-          <B variant="outline" onClick={signOut}>
-            <LogOut className="size-4" /> Sign out
-          </B>
+          <Link to="/admin" className={btnStyles.outline}>
+            <ArrowLeft className="size-4" /> Properties
+          </Link>
         </div>
       </div>
 
       {editing ? (
-        <PropertyForm
+        <ProjectForm
           key={editing.id || "new"}
           initial={editing}
           isNew={!list.data?.some((p) => p.id === editing.id)}
           onClose={() => setEditing(null)}
           onSaved={() => {
             setEditing(null);
-            qc.invalidateQueries({ queryKey: ["admin-properties"] });
+            qc.invalidateQueries({ queryKey: ["admin-upcoming"] });
           }}
         />
       ) : null}
 
       <div className="mt-10 grid gap-4">
         {list.isLoading ? <p className="text-sm text-muted-foreground">Loading…</p> : null}
-        {list.error ? (
-          <p className="text-sm text-destructive">{(list.error as Error).message}</p>
-        ) : null}
+        {list.error ? <p className="text-sm text-destructive">{(list.error as Error).message}</p> : null}
         {list.data?.map((p) => (
           <div
             key={p.id}
             className="flex flex-wrap items-center gap-4 rounded-3xl border border-border bg-card p-4"
           >
-            <img
-              src={p.image}
-              alt={p.name}
-              className="size-20 rounded-2xl object-cover"
-              onError={(e) => {
-                (e.currentTarget as HTMLImageElement).style.visibility = "hidden";
-              }}
-            />
-            <div className="min-w-[12rem] flex-1">
-              <p className="font-medium">{p.name}</p>
+            <img src={p.image} alt="" className="size-20 rounded-2xl object-cover" />
+            <div className="min-w-48 flex-1">
+              <p className="font-display text-lg">{p.name}</p>
               <p className="text-sm text-muted-foreground">
-                {p.location}, {p.city} · {p.type} · {p.price} · {p.status}
+                {p.location}, {p.city} · {p.status} · {p.expectedLaunch || "Launch TBA"}
               </p>
+              <p className="text-sm text-gold">{p.price}</p>
             </div>
-            <div className="flex gap-2">
-              <B variant="outline" onClick={() => setEditing(p)}>
+            <span
+              className={`rounded-full px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] ${
+                p.published ? "bg-accent text-accent-foreground" : "bg-secondary text-muted-foreground"
+              }`}
+            >
+              {p.published ? "Published" : "Draft"}
+            </span>
+            <div className="flex flex-wrap gap-2">
+              <B variant="outline" className="px-4 py-2" onClick={() => togglePublish.mutate(p)}>
+                {p.published ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                {p.published ? "Unpublish" : "Publish"}
+              </B>
+              <B variant="outline" className="px-4 py-2" onClick={() => setEditing(p)}>
                 <Pencil className="size-4" /> Edit
               </B>
               <B
                 variant="outline"
+                className="px-4 py-2 text-destructive"
                 onClick={() => {
                   if (confirm(`Remove "${p.name}"? This cannot be undone.`)) remove.mutate(p.id);
                 }}
@@ -207,7 +165,7 @@ function AdminPage() {
         ))}
         {list.data && list.data.length === 0 ? (
           <p className="rounded-3xl border border-dashed border-border p-10 text-center text-sm text-muted-foreground">
-            No properties yet. Add your first listing.
+            No upcoming projects yet. Add your first one.
           </p>
         ) : null}
       </div>
@@ -215,39 +173,32 @@ function AdminPage() {
   );
 }
 
-function PropertyForm({
+function ProjectForm({
   initial,
   isNew,
   onClose,
   onSaved,
 }: {
-  initial: Property;
+  initial: UpcomingProject;
   isNew: boolean;
   onClose: () => void;
   onSaved: () => void;
 }) {
-  const [p, setP] = useState<Property>(initial);
+  const [p, setP] = useState<UpcomingProject>(initial);
   const [uploading, setUploading] = useState(false);
-  const set = <K extends keyof Property>(k: K, v: Property[K]) => setP((prev) => ({ ...prev, [k]: v }));
-
-  const listText = useMemo(
-    () => ({
-      highlights: p.highlights.join("\n"),
-      amenities: p.amenities.join("\n"),
-    }),
-    [p.highlights, p.amenities],
-  );
+  const set = <K extends keyof UpcomingProject>(k: K, v: UpcomingProject[K]) =>
+    setP((prev) => ({ ...prev, [k]: v }));
 
   const save = useMutation({
     mutationFn: async () => {
       const id = p.id || slugify(p.name);
-      if (!id) throw new Error("Property needs a name");
-      const row = propertyToRow({ ...p, id, image: p.image || p.images[0] || "" });
-      const { error } = await supabase.from("properties").upsert(row as never);
+      if (!id) throw new Error("Project needs a name");
+      const row = upcomingToRow({ ...p, id, image: p.image || p.images[0] || "" });
+      const { error } = await supabase.from("upcoming_projects").upsert(row as never);
       if (error) throw new Error(error.message);
     },
     onSuccess: () => {
-      toast.success(isNew ? "Property added" : "Property updated");
+      toast.success(isNew ? "Project added" : "Project updated");
       onSaved();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -260,7 +211,7 @@ function PropertyForm({
       const uploaded: string[] = [];
       for (const file of Array.from(files)) {
         const ext = file.name.split(".").pop() || "jpg";
-        const path = `${slugify(p.name) || "property"}/${crypto.randomUUID()}.${ext}`;
+        const path = `${slugify(p.name) || "project"}/${crypto.randomUUID()}.${ext}`;
         const { error } = await supabase.storage.from("property-images").upload(path, file, {
           cacheControl: "31536000",
           upsert: false,
@@ -290,7 +241,7 @@ function PropertyForm({
       }}
     >
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl">{isNew ? "New property" : `Edit — ${initial.name}`}</h2>
+        <h2 className="text-2xl">{isNew ? "New upcoming project" : `Edit — ${initial.name}`}</h2>
         <button type="button" onClick={onClose} aria-label="Close editor" className="rounded-full p-2 hover:bg-secondary">
           <X className="size-4" />
         </button>
@@ -298,7 +249,7 @@ function PropertyForm({
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <label className={label}>
-          Name
+          Project name
           <input className={field} required value={p.name} onChange={(e) => set("name", e.target.value)} />
         </label>
         <label className={label}>
@@ -320,96 +271,148 @@ function PropertyForm({
           <input className={field} value={p.city} onChange={(e) => set("city", e.target.value)} />
         </label>
         <label className={label}>
-          Type
-          <select className={field} value={p.type} onChange={(e) => set("type", e.target.value as Property["type"])}>
+          Property type
+          <select className={field} value={p.type} onChange={(e) => set("type", e.target.value)}>
             {propertyTypes.map((t) => (
               <option key={t}>{t}</option>
             ))}
           </select>
         </label>
         <label className={label}>
-          Status
+          Status badge
           <select
             className={field}
             value={p.status}
-            onChange={(e) => set("status", e.target.value as Property["status"])}
+            onChange={(e) => set("status", e.target.value as UpcomingProject["status"])}
           >
-            {["For Sale", "For Rent", "Sold"].map((s) => (
-              <option key={s}>{s}</option>
-            ))}
+            <option>Coming Soon</option>
+            <option>Pre-Launch</option>
           </select>
         </label>
         <label className={label}>
-          Size (display)
-          <input className={field} value={p.size} onChange={(e) => set("size", e.target.value)} placeholder="1450 sq.ft. / 3 BHK" />
+          Expected launch
+          <input
+            className={field}
+            value={p.expectedLaunch}
+            onChange={(e) => set("expectedLaunch", e.target.value)}
+            placeholder="Q4 2026"
+          />
         </label>
         <label className={label}>
-          Size in sq.ft. (for filters)
-          <input type="number" className={field} value={p.sizeSqft} onChange={(e) => set("sizeSqft", Number(e.target.value))} />
+          Starting / expected price
+          <input
+            className={field}
+            value={p.price}
+            onChange={(e) => set("price", e.target.value)}
+            placeholder="₹34 Lakh onwards"
+          />
         </label>
         <label className={label}>
-          Price (display)
-          <input className={field} value={p.price} onChange={(e) => set("price", e.target.value)} placeholder="₹1.35 Crore" />
+          Available sizes
+          <input
+            className={field}
+            value={p.sizes}
+            onChange={(e) => set("sizes", e.target.value)}
+            placeholder="1000 / 1500 / 2000 sq.ft."
+          />
         </label>
         <label className={label}>
-          Price in ₹ Lakh (for filters)
-          <input type="number" className={field} value={p.priceValue} onChange={(e) => set("priceValue", Number(e.target.value))} />
+          Display order
+          <input
+            type="number"
+            className={field}
+            value={p.sortOrder}
+            onChange={(e) => set("sortOrder", Number(e.target.value))}
+          />
+        </label>
+        <label className="flex items-center gap-3 text-sm font-medium">
+          <input
+            type="checkbox"
+            checked={p.published}
+            onChange={(e) => set("published", e.target.checked)}
+            className="size-4"
+          />
+          Published on website
+        </label>
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <label className={label}>
+          Short description (used for SEO &amp; cards)
+          <textarea
+            className={`${field} min-h-28`}
+            value={p.description}
+            onChange={(e) => set("description", e.target.value)}
+          />
         </label>
         <label className={label}>
-          Bedrooms
-          <input type="number" className={field} value={p.bedrooms} onChange={(e) => set("bedrooms", Number(e.target.value))} />
-        </label>
-        <label className={label}>
-          Bathrooms
-          <input type="number" className={field} value={p.bathrooms} onChange={(e) => set("bathrooms", Number(e.target.value))} />
-        </label>
-        <label className={label}>
-          Parking
-          <input type="number" className={field} value={p.parking} onChange={(e) => set("parking", Number(e.target.value))} />
-        </label>
-        <label className={label}>
-          Latitude
-          <input type="number" step="any" className={field} value={p.latitude} onChange={(e) => set("latitude", Number(e.target.value))} />
-        </label>
-        <label className={label}>
-          Longitude
-          <input type="number" step="any" className={field} value={p.longitude} onChange={(e) => set("longitude", Number(e.target.value))} />
+          Project overview
+          <textarea
+            className={`${field} min-h-28`}
+            value={p.overview}
+            onChange={(e) => set("overview", e.target.value)}
+          />
         </label>
       </div>
 
       <label className={`${label} mt-4`}>
-        Description
+        Location &amp; connectivity
         <textarea
-          className={`${field} min-h-32`}
-          value={p.description}
-          onChange={(e) => set("description", e.target.value)}
+          className={`${field} min-h-24`}
+          value={p.connectivity}
+          onChange={(e) => set("connectivity", e.target.value)}
         />
       </label>
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <label className={label}>
-          Highlights (one per line)
+          Key highlights (one per line)
           <textarea
             className={`${field} min-h-28`}
-            value={listText.highlights}
-            onChange={(e) => set("highlights", e.target.value.split("\n").map((v) => v.trim()).filter(Boolean))}
+            value={p.highlights.join("\n")}
+            onChange={(e) => set("highlights", lines(e.target.value))}
           />
         </label>
         <label className={label}>
           Amenities (one per line)
           <textarea
             className={`${field} min-h-28`}
-            value={listText.amenities}
-            onChange={(e) => set("amenities", e.target.value.split("\n").map((v) => v.trim()).filter(Boolean))}
+            value={p.amenities.join("\n")}
+            onChange={(e) => set("amenities", lines(e.target.value))}
+          />
+        </label>
+        <label className={label}>
+          Launch timeline steps (one per line)
+          <textarea
+            className={`${field} min-h-28`}
+            value={p.timeline.join("\n")}
+            onChange={(e) => set("timeline", lines(e.target.value))}
           />
         </label>
       </div>
 
+      <label className={`${label} mt-4`}>
+        FAQs — one per line as: Question | Answer
+        <textarea
+          className={`${field} min-h-28`}
+          value={p.faqs.map((f) => `${f.q} | ${f.a}`).join("\n")}
+          onChange={(e) =>
+            set(
+              "faqs",
+              lines(e.target.value)
+                .map((row) => {
+                  const [q, ...rest] = row.split("|");
+                  return { q: (q ?? "").trim(), a: rest.join("|").trim() };
+                })
+                .filter((f) => f.q && f.a),
+            )
+          }
+        />
+      </label>
+
       <div className="mt-6">
         <p className="text-sm font-medium">Images</p>
-        <p className="mt-1 text-xs text-muted-foreground">
-          The first image is used as the card photo. Upload files or paste an image URL.
-        </p>
+        <p className="mt-1 text-xs text-muted-foreground">The first image is used as the card photo.</p>
 
         <div className="mt-3 flex flex-wrap gap-3">
           {p.images.map((src, i) => (
@@ -465,43 +468,17 @@ function PropertyForm({
               }}
             />
           </label>
-          <AddImageUrl onAdd={(url) => setP((prev) => ({ ...prev, images: [...prev.images, url], image: prev.image || url }))} />
         </div>
       </div>
 
-      <div className="mt-8 flex gap-3">
-        <B type="submit" variant="gold" disabled={save.isPending || uploading}>
-          {save.isPending ? "Saving…" : "Save property"}
+      <div className="mt-8 flex flex-wrap gap-3">
+        <B type="submit" variant="gold" disabled={save.isPending}>
+          {save.isPending ? "Saving…" : "Save project"}
         </B>
         <B type="button" variant="outline" onClick={onClose}>
           Cancel
         </B>
       </div>
     </form>
-  );
-}
-
-function AddImageUrl({ onAdd }: { onAdd: (url: string) => void }) {
-  const [url, setUrl] = useState("");
-  return (
-    <div className="flex items-center gap-2">
-      <input
-        className="rounded-full border border-input bg-card px-4 py-2 text-sm outline-none focus:border-gold"
-        placeholder="https://image-url.jpg"
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-      />
-      <B
-        type="button"
-        variant="outline"
-        onClick={() => {
-          if (!url.trim()) return;
-          onAdd(url.trim());
-          setUrl("");
-        }}
-      >
-        Add
-      </B>
-    </div>
   );
 }

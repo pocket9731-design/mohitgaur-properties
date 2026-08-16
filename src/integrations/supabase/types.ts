@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      project_enquiries: {
+        Row: {
+          budget: string
+          buyer_type: string
+          created_at: string
+          id: string
+          message: string
+          mobile: string
+          name: string
+          project: string
+          updated_at: string
+        }
+        Insert: {
+          budget?: string
+          buyer_type?: string
+          created_at?: string
+          id?: string
+          message?: string
+          mobile: string
+          name: string
+          project?: string
+          updated_at?: string
+        }
+        Update: {
+          budget?: string
+          buyer_type?: string
+          created_at?: string
+          id?: string
+          message?: string
+          mobile?: string
+          name?: string
+          project?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       properties: {
         Row: {
           amenities: string[]
@@ -84,6 +120,81 @@ export type Database = {
           size?: string
           size_sqft?: number
           status?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      upcoming_projects: {
+        Row: {
+          amenities: string[]
+          city: string
+          connectivity: string
+          created_at: string
+          description: string
+          expected_launch: string
+          faqs: Json
+          highlights: string[]
+          id: string
+          image: string
+          images: string[]
+          location: string
+          name: string
+          overview: string
+          price: string
+          published: boolean
+          sizes: string
+          sort_order: number
+          status: string
+          timeline: string[]
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          amenities?: string[]
+          city?: string
+          connectivity?: string
+          created_at?: string
+          description?: string
+          expected_launch?: string
+          faqs?: Json
+          highlights?: string[]
+          id: string
+          image?: string
+          images?: string[]
+          location?: string
+          name: string
+          overview?: string
+          price?: string
+          published?: boolean
+          sizes?: string
+          sort_order?: number
+          status?: string
+          timeline?: string[]
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          amenities?: string[]
+          city?: string
+          connectivity?: string
+          created_at?: string
+          description?: string
+          expected_launch?: string
+          faqs?: Json
+          highlights?: string[]
+          id?: string
+          image?: string
+          images?: string[]
+          location?: string
+          name?: string
+          overview?: string
+          price?: string
+          published?: boolean
+          sizes?: string
+          sort_order?: number
+          status?: string
+          timeline?: string[]
           type?: string
           updated_at?: string
         }
