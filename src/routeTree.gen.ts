@@ -27,6 +27,7 @@ import { Route as PropertiesIndexRouteImport } from './routes/properties.index'
 import { Route as PropertiesIdRouteImport } from './routes/properties.$id'
 import { Route as UpcomingProjectsIndexRouteImport } from './routes/upcoming-projects.index'
 import { Route as UpcomingProjectsIdRouteImport } from './routes/upcoming-projects.$id'
+import { Route as AuthenticatedAdminUpcomingRouteImport } from './routes/_authenticated/admin.upcoming'
 import { Route as ApiPublicPropertyImageSplatRouteImport } from './routes/api/public/property-image/$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -118,6 +119,12 @@ const UpcomingProjectsIdRoute = UpcomingProjectsIdRouteImport.update({
   path: '/upcoming-projects/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminUpcomingRoute =
+  AuthenticatedAdminUpcomingRouteImport.update({
+    id: '/upcoming',
+    path: '/upcoming',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const ApiPublicPropertyImageSplatRoute =
   ApiPublicPropertyImageSplatRouteImport.update({
     id: '/api/public/property-image/$',
@@ -136,13 +143,14 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
-  '/admin': typeof AuthenticatedAdminRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/projects/$id': typeof ProjectsIdRoute
   '/properties/$id': typeof PropertiesIdRoute
   '/upcoming-projects/$id': typeof UpcomingProjectsIdRoute
   '/projects/': typeof ProjectsIndexRoute
   '/properties/': typeof PropertiesIndexRoute
   '/upcoming-projects/': typeof UpcomingProjectsIndexRoute
+  '/admin/upcoming': typeof AuthenticatedAdminUpcomingRoute
   '/api/public/property-image/$': typeof ApiPublicPropertyImageSplatRoute
 }
 export interface FileRoutesByTo {
@@ -156,13 +164,14 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
-  '/admin': typeof AuthenticatedAdminRoute
+  '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/projects/$id': typeof ProjectsIdRoute
   '/properties/$id': typeof PropertiesIdRoute
   '/upcoming-projects/$id': typeof UpcomingProjectsIdRoute
   '/projects': typeof ProjectsIndexRoute
   '/properties': typeof PropertiesIndexRoute
   '/upcoming-projects': typeof UpcomingProjectsIndexRoute
+  '/admin/upcoming': typeof AuthenticatedAdminUpcomingRoute
   '/api/public/property-image/$': typeof ApiPublicPropertyImageSplatRoute
 }
 export interface FileRoutesById {
@@ -178,13 +187,14 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/testimonials': typeof TestimonialsRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/projects/$id': typeof ProjectsIdRoute
   '/properties/$id': typeof PropertiesIdRoute
   '/upcoming-projects/$id': typeof UpcomingProjectsIdRoute
   '/projects/': typeof ProjectsIndexRoute
   '/properties/': typeof PropertiesIndexRoute
   '/upcoming-projects/': typeof UpcomingProjectsIndexRoute
+  '/_authenticated/admin/upcoming': typeof AuthenticatedAdminUpcomingRoute
   '/api/public/property-image/$': typeof ApiPublicPropertyImageSplatRoute
 }
 export interface FileRouteTypes {
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/properties/'
     | '/upcoming-projects/'
+    | '/admin/upcoming'
     | '/api/public/property-image/$'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/properties'
     | '/upcoming-projects'
+    | '/admin/upcoming'
     | '/api/public/property-image/$'
   id:
     | '__root__'
@@ -248,6 +260,7 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/properties/'
     | '/upcoming-projects/'
+    | '/_authenticated/admin/upcoming'
     | '/api/public/property-image/$'
   fileRoutesById: FileRoutesById
 }
@@ -400,6 +413,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UpcomingProjectsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/upcoming': {
+      id: '/_authenticated/admin/upcoming'
+      path: '/upcoming'
+      fullPath: '/admin/upcoming'
+      preLoaderRoute: typeof AuthenticatedAdminUpcomingRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/api/public/property-image/$': {
       id: '/api/public/property-image/$'
       path: '/api/public/property-image/$'
@@ -410,12 +430,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminUpcomingRoute: typeof AuthenticatedAdminUpcomingRoute
+}
+
+const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminUpcomingRoute: AuthenticatedAdminUpcomingRoute,
+}
+
+const AuthenticatedAdminRouteWithChildren =
+  AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =

@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus, Pencil, Trash2, Upload, X, LogOut, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Section } from "@/components/site/Section";
-import { B } from "@/components/site/buttons";
+import { B, btnStyles } from "@/components/site/buttons";
 import { supabase } from "@/integrations/supabase/client";
 import { propertyTypes, type Property } from "@/data/site";
 import {
@@ -14,7 +14,7 @@ import {
   type PropertyRow,
 } from "@/lib/property-mapper";
 
-export const Route = createFileRoute("/_authenticated/admin")({
+export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({
     meta: [
       { title: "Manage Properties | Mohit Gaur" },
@@ -147,6 +147,9 @@ function AdminPage() {
           <B variant="gold" onClick={() => setEditing(emptyProperty())}>
             <Plus className="size-4" /> Add property
           </B>
+          <Link to="/admin/upcoming" className={btnStyles.outline}>
+            Upcoming projects
+          </Link>
           <B variant="outline" onClick={signOut}>
             <LogOut className="size-4" /> Sign out
           </B>
