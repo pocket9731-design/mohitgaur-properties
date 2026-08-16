@@ -26,6 +26,7 @@ import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
 import { Route as PropertiesIndexRouteImport } from './routes/properties.index'
 import { Route as PropertiesIdRouteImport } from './routes/properties.$id'
 import { Route as UpcomingProjectsIndexRouteImport } from './routes/upcoming-projects.index'
+import { Route as UpcomingProjectsIdRouteImport } from './routes/upcoming-projects.$id'
 import { Route as ApiPublicPropertyImageSplatRouteImport } from './routes/api/public/property-image/$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -112,6 +113,11 @@ const UpcomingProjectsIndexRoute = UpcomingProjectsIndexRouteImport.update({
   path: '/upcoming-projects/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UpcomingProjectsIdRoute = UpcomingProjectsIdRouteImport.update({
+  id: '/upcoming-projects/$id',
+  path: '/upcoming-projects/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPropertyImageSplatRoute =
   ApiPublicPropertyImageSplatRouteImport.update({
     id: '/api/public/property-image/$',
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/properties/$id': typeof PropertiesIdRoute
+  '/upcoming-projects/$id': typeof UpcomingProjectsIdRoute
   '/projects/': typeof ProjectsIndexRoute
   '/properties/': typeof PropertiesIndexRoute
   '/upcoming-projects/': typeof UpcomingProjectsIndexRoute
@@ -152,6 +159,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/properties/$id': typeof PropertiesIdRoute
+  '/upcoming-projects/$id': typeof UpcomingProjectsIdRoute
   '/projects': typeof ProjectsIndexRoute
   '/properties': typeof PropertiesIndexRoute
   '/upcoming-projects': typeof UpcomingProjectsIndexRoute
@@ -173,6 +181,7 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/properties/$id': typeof PropertiesIdRoute
+  '/upcoming-projects/$id': typeof UpcomingProjectsIdRoute
   '/projects/': typeof ProjectsIndexRoute
   '/properties/': typeof PropertiesIndexRoute
   '/upcoming-projects/': typeof UpcomingProjectsIndexRoute
@@ -194,6 +203,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/projects/$id'
     | '/properties/$id'
+    | '/upcoming-projects/$id'
     | '/projects/'
     | '/properties/'
     | '/upcoming-projects/'
@@ -213,6 +223,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/projects/$id'
     | '/properties/$id'
+    | '/upcoming-projects/$id'
     | '/projects'
     | '/properties'
     | '/upcoming-projects'
@@ -233,6 +244,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/projects/$id'
     | '/properties/$id'
+    | '/upcoming-projects/$id'
     | '/projects/'
     | '/properties/'
     | '/upcoming-projects/'
@@ -253,6 +265,7 @@ export interface RootRouteChildren {
   TestimonialsRoute: typeof TestimonialsRoute
   ProjectsIdRoute: typeof ProjectsIdRoute
   PropertiesIdRoute: typeof PropertiesIdRoute
+  UpcomingProjectsIdRoute: typeof UpcomingProjectsIdRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   PropertiesIndexRoute: typeof PropertiesIndexRoute
   UpcomingProjectsIndexRoute: typeof UpcomingProjectsIndexRoute
@@ -380,6 +393,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UpcomingProjectsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/upcoming-projects/$id': {
+      id: '/upcoming-projects/$id'
+      path: '/upcoming-projects/$id'
+      fullPath: '/upcoming-projects/$id'
+      preLoaderRoute: typeof UpcomingProjectsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/property-image/$': {
       id: '/api/public/property-image/$'
       path: '/api/public/property-image/$'
@@ -415,6 +435,7 @@ const rootRouteChildren: RootRouteChildren = {
   TestimonialsRoute: TestimonialsRoute,
   ProjectsIdRoute: ProjectsIdRoute,
   PropertiesIdRoute: PropertiesIdRoute,
+  UpcomingProjectsIdRoute: UpcomingProjectsIdRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   PropertiesIndexRoute: PropertiesIndexRoute,
   UpcomingProjectsIndexRoute: UpcomingProjectsIndexRoute,

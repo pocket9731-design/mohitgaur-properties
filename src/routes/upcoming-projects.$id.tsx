@@ -110,7 +110,8 @@ export const Route = createFileRoute("/upcoming-projects/$id")({
 function UpcomingProjectDetail() {
   const { id } = Route.useParams();
   const { data: projects } = useSuspenseQuery(upcomingQuery);
-  const p = projects.find((x) => x.id === id) ?? Route.useLoaderData().project;
+  const loaded = Route.useLoaderData();
+  const p = projects.find((x) => x.id === id) ?? loaded.project;
 
   const wa = waLink(`Hello Mohit, please share complete details about the upcoming project ${p.name}, ${p.location}, ${p.city}.`);
 
