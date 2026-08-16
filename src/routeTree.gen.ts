@@ -25,6 +25,7 @@ import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
 import { Route as PropertiesIndexRouteImport } from './routes/properties.index'
 import { Route as PropertiesIdRouteImport } from './routes/properties.$id'
+import { Route as UpcomingProjectsIndexRouteImport } from './routes/upcoming-projects.index'
 import { Route as ApiPublicPropertyImageSplatRouteImport } from './routes/api/public/property-image/$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -106,6 +107,11 @@ const PropertiesIdRoute = PropertiesIdRouteImport.update({
   path: '/properties/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UpcomingProjectsIndexRoute = UpcomingProjectsIndexRouteImport.update({
+  id: '/upcoming-projects/',
+  path: '/upcoming-projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPropertyImageSplatRoute =
   ApiPublicPropertyImageSplatRouteImport.update({
     id: '/api/public/property-image/$',
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/properties/$id': typeof PropertiesIdRoute
   '/projects/': typeof ProjectsIndexRoute
   '/properties/': typeof PropertiesIndexRoute
+  '/upcoming-projects/': typeof UpcomingProjectsIndexRoute
   '/api/public/property-image/$': typeof ApiPublicPropertyImageSplatRoute
 }
 export interface FileRoutesByTo {
@@ -147,6 +154,7 @@ export interface FileRoutesByTo {
   '/properties/$id': typeof PropertiesIdRoute
   '/projects': typeof ProjectsIndexRoute
   '/properties': typeof PropertiesIndexRoute
+  '/upcoming-projects': typeof UpcomingProjectsIndexRoute
   '/api/public/property-image/$': typeof ApiPublicPropertyImageSplatRoute
 }
 export interface FileRoutesById {
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/properties/$id': typeof PropertiesIdRoute
   '/projects/': typeof ProjectsIndexRoute
   '/properties/': typeof PropertiesIndexRoute
+  '/upcoming-projects/': typeof UpcomingProjectsIndexRoute
   '/api/public/property-image/$': typeof ApiPublicPropertyImageSplatRoute
 }
 export interface FileRouteTypes {
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/properties/$id'
     | '/projects/'
     | '/properties/'
+    | '/upcoming-projects/'
     | '/api/public/property-image/$'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -205,6 +215,7 @@ export interface FileRouteTypes {
     | '/properties/$id'
     | '/projects'
     | '/properties'
+    | '/upcoming-projects'
     | '/api/public/property-image/$'
   id:
     | '__root__'
@@ -224,6 +235,7 @@ export interface FileRouteTypes {
     | '/properties/$id'
     | '/projects/'
     | '/properties/'
+    | '/upcoming-projects/'
     | '/api/public/property-image/$'
   fileRoutesById: FileRoutesById
 }
@@ -243,6 +255,7 @@ export interface RootRouteChildren {
   PropertiesIdRoute: typeof PropertiesIdRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   PropertiesIndexRoute: typeof PropertiesIndexRoute
+  UpcomingProjectsIndexRoute: typeof UpcomingProjectsIndexRoute
   ApiPublicPropertyImageSplatRoute: typeof ApiPublicPropertyImageSplatRoute
 }
 
@@ -360,6 +373,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PropertiesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/upcoming-projects/': {
+      id: '/upcoming-projects/'
+      path: '/upcoming-projects'
+      fullPath: '/upcoming-projects/'
+      preLoaderRoute: typeof UpcomingProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/property-image/$': {
       id: '/api/public/property-image/$'
       path: '/api/public/property-image/$'
@@ -397,6 +417,7 @@ const rootRouteChildren: RootRouteChildren = {
   PropertiesIdRoute: PropertiesIdRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   PropertiesIndexRoute: PropertiesIndexRoute,
+  UpcomingProjectsIndexRoute: UpcomingProjectsIndexRoute,
   ApiPublicPropertyImageSplatRoute: ApiPublicPropertyImageSplatRoute,
 }
 export const routeTree = rootRouteImport
