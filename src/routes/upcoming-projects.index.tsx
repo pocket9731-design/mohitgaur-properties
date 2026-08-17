@@ -1,12 +1,12 @@
+import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { CalendarClock, MapPin, Ruler, IndianRupee } from "lucide-react";
+import { CalendarClock, MapPin, Ruler, IndianRupee, Search, SlidersHorizontal } from "lucide-react";
 import { Section, SectionHeading } from "@/components/site/Section";
 import { CtaBand } from "@/components/site/CtaBand";
 import { A, btnStyles } from "@/components/site/buttons";
 import { ProjectEnquiryForm } from "@/components/site/ProjectEnquiryForm";
 import { fetchUpcomingProjects } from "@/lib/upcoming.functions";
-import { FALLBACK_IMAGE } from "@/lib/upcoming-mapper";
+import { FALLBACK_IMAGE, type ProjectStatus } from "@/lib/upcoming-mapper";
 import { waLink } from "@/data/site";
 
 const upcomingQuery = queryOptions({
