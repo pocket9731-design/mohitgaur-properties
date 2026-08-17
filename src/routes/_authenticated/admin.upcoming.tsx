@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plus, Pencil, Trash2, Upload, X, ImageIcon, Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, X, ImageIcon, Eye, EyeOff, ArrowLeft, Inbox } from "lucide-react";
 import { toast } from "sonner";
 import { Section } from "@/components/site/Section";
 import { B, btnStyles } from "@/components/site/buttons";
