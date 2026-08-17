@@ -27,6 +27,7 @@ import { Route as PropertiesIdRouteImport } from './routes/properties.$id'
 import { Route as UpcomingProjectsIndexRouteImport } from './routes/upcoming-projects.index'
 import { Route as UpcomingProjectsIdRouteImport } from './routes/upcoming-projects.$id'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin.index'
+import { Route as AuthenticatedAdminEnquiriesRouteImport } from './routes/_authenticated/admin.enquiries'
 import { Route as AuthenticatedAdminUpcomingRouteImport } from './routes/_authenticated/admin.upcoming'
 import { Route as ApiPublicPropertyImageSplatRouteImport } from './routes/api/public/property-image/$'
 
@@ -119,6 +120,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminEnquiriesRoute =
+  AuthenticatedAdminEnquiriesRouteImport.update({
+    id: '/admin/enquiries',
+    path: '/admin/enquiries',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminUpcomingRoute =
   AuthenticatedAdminUpcomingRouteImport.update({
     id: '/admin/upcoming',
@@ -149,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/projects/': typeof ProjectsIndexRoute
   '/properties/': typeof PropertiesIndexRoute
   '/upcoming-projects/': typeof UpcomingProjectsIndexRoute
+  '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/upcoming': typeof AuthenticatedAdminUpcomingRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/property-image/$': typeof ApiPublicPropertyImageSplatRoute
@@ -170,6 +178,7 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsIndexRoute
   '/properties': typeof PropertiesIndexRoute
   '/upcoming-projects': typeof UpcomingProjectsIndexRoute
+  '/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/admin/upcoming': typeof AuthenticatedAdminUpcomingRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/property-image/$': typeof ApiPublicPropertyImageSplatRoute
@@ -193,6 +202,7 @@ export interface FileRoutesById {
   '/projects/': typeof ProjectsIndexRoute
   '/properties/': typeof PropertiesIndexRoute
   '/upcoming-projects/': typeof UpcomingProjectsIndexRoute
+  '/_authenticated/admin/enquiries': typeof AuthenticatedAdminEnquiriesRoute
   '/_authenticated/admin/upcoming': typeof AuthenticatedAdminUpcomingRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/property-image/$': typeof ApiPublicPropertyImageSplatRoute
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/properties/'
     | '/upcoming-projects/'
+    | '/admin/enquiries'
     | '/admin/upcoming'
     | '/admin/'
     | '/api/public/property-image/$'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/properties'
     | '/upcoming-projects'
+    | '/admin/enquiries'
     | '/admin/upcoming'
     | '/admin'
     | '/api/public/property-image/$'
@@ -259,6 +271,7 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/properties/'
     | '/upcoming-projects/'
+    | '/_authenticated/admin/enquiries'
     | '/_authenticated/admin/upcoming'
     | '/_authenticated/admin/'
     | '/api/public/property-image/$'
@@ -413,6 +426,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/enquiries': {
+      id: '/_authenticated/admin/enquiries'
+      path: '/admin/enquiries'
+      fullPath: '/admin/enquiries'
+      preLoaderRoute: typeof AuthenticatedAdminEnquiriesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/upcoming': {
       id: '/_authenticated/admin/upcoming'
       path: '/admin/upcoming'
@@ -431,11 +451,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminEnquiriesRoute: typeof AuthenticatedAdminEnquiriesRoute
   AuthenticatedAdminUpcomingRoute: typeof AuthenticatedAdminUpcomingRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminEnquiriesRoute: AuthenticatedAdminEnquiriesRoute,
   AuthenticatedAdminUpcomingRoute: AuthenticatedAdminUpcomingRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }
