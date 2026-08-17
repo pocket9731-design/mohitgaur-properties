@@ -101,10 +101,19 @@ function AdminUpcoming() {
           <B variant="gold" onClick={() => setEditing(emptyUpcoming())}>
             <Plus className="size-4" /> Add project
           </B>
+          <Link to="/admin/enquiries" className={btnStyles.outline}>
+            <Inbox className="size-4" /> Enquiries
+            {pendingCount > 0 ? (
+              <span className="ml-1 rounded-full bg-gold px-2 py-0.5 text-[0.7rem] font-semibold text-primary-foreground">
+                {pendingCount}
+              </span>
+            ) : null}
+          </Link>
           <Link to="/admin" className={btnStyles.outline}>
             <ArrowLeft className="size-4" /> Properties
           </Link>
         </div>
+
       </div>
 
       {editing ? (
