@@ -63,6 +63,20 @@ function AdminUpcoming() {
 
   const list = useQuery({ queryKey: ["admin-upcoming"], queryFn: fetchAll });
 
+  const pendingEnquiries = useQuery({
+    queryKey: ["admin-enquiries-pending"],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from("project_enquiries")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "pending");
+      if (error) throw new Error(error.message);
+      return count ?? 0;
+    },
+  });
+  const pendingCount = pendingEnquiries.data ?? 0;
+
+
   const remove = useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("upcoming_projects").delete().eq("id", id);
