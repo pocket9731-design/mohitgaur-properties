@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       project_enquiries: {
         Row: {
+          admin_note: string
           budget: string
           buyer_type: string
           created_at: string
@@ -24,9 +25,12 @@ export type Database = {
           mobile: string
           name: string
           project: string
+          replied_at: string | null
+          status: string
           updated_at: string
         }
         Insert: {
+          admin_note?: string
           budget?: string
           buyer_type?: string
           created_at?: string
@@ -35,9 +39,12 @@ export type Database = {
           mobile: string
           name: string
           project?: string
+          replied_at?: string | null
+          status?: string
           updated_at?: string
         }
         Update: {
+          admin_note?: string
           budget?: string
           buyer_type?: string
           created_at?: string
@@ -46,6 +53,8 @@ export type Database = {
           mobile?: string
           name?: string
           project?: string
+          replied_at?: string | null
+          status?: string
           updated_at?: string
         }
         Relationships: []
