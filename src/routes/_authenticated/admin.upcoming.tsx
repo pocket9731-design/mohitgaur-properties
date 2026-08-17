@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plus, Pencil, Trash2, Upload, X, ImageIcon, Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { Plus, Pencil, Trash2, Upload, X, ImageIcon, Eye, EyeOff, ArrowLeft, Inbox } from "lucide-react";
 import { toast } from "sonner";
 import { Section } from "@/components/site/Section";
 import { B, btnStyles } from "@/components/site/buttons";
@@ -63,6 +63,20 @@ function AdminUpcoming() {
 
   const list = useQuery({ queryKey: ["admin-upcoming"], queryFn: fetchAll });
 
+  const pendingEnquiries = useQuery({
+    queryKey: ["admin-enquiries-pending"],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from("project_enquiries")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "pending");
+      if (error) throw new Error(error.message);
+      return count ?? 0;
+    },
+  });
+  const pendingCount = pendingEnquiries.data ?? 0;
+
+
   const remove = useMutation({
     mutationFn: async (id: string) => {
       const { error } = await supabase.from("upcoming_projects").delete().eq("id", id);
@@ -101,10 +115,19 @@ function AdminUpcoming() {
           <B variant="gold" onClick={() => setEditing(emptyUpcoming())}>
             <Plus className="size-4" /> Add project
           </B>
+          <Link to="/admin/enquiries" className={btnStyles.outline}>
+            <Inbox className="size-4" /> Enquiries
+            {pendingCount > 0 ? (
+              <span className="ml-1 rounded-full bg-gold px-2 py-0.5 text-[0.7rem] font-semibold text-primary-foreground">
+                {pendingCount}
+              </span>
+            ) : null}
+          </Link>
           <Link to="/admin" className={btnStyles.outline}>
             <ArrowLeft className="size-4" /> Properties
           </Link>
         </div>
+
       </div>
 
       {editing ? (
