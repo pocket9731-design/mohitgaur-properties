@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CalendarClock, MapPin, Ruler, IndianRupee, Search, SlidersHorizontal } from "lucide-react";
 import { Section, SectionHeading } from "@/components/site/Section";
