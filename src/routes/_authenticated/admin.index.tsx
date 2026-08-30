@@ -6,7 +6,13 @@ import { toast } from "sonner";
 import { Section } from "@/components/site/Section";
 import { B, btnStyles } from "@/components/site/buttons";
 import { supabase } from "@/integrations/supabase/client";
-import { propertyTypes, type Property } from "@/data/site";
+import {
+  propertyTypes,
+  reraStatuses,
+  reraVerificationStatuses,
+  possessionStatuses,
+  type Property,
+} from "@/data/site";
 import {
   PROPERTY_COLUMNS,
   rowToProperty,
