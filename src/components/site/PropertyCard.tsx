@@ -1,10 +1,15 @@
-import { MapPin, Maximize2, MessageCircle, BedDouble, Bath } from "lucide-react";
+import { useState } from "react";
+import { MapPin, Maximize2, MessageCircle, BedDouble, Bath, ShieldCheck } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import type { Property } from "@/data/site";
-import { waLink } from "@/data/site";
+import { waLink, isReraRegistered } from "@/data/site";
+import { ReraBadge, ReraDetailsModal } from "@/components/site/Rera";
 import fallbackImg from "@/assets/prop-plots.jpg";
 
 export function PropertyCard({ p }: { p: Property }) {
+  const [reraOpen, setReraOpen] = useState(false);
+  const rera = isReraRegistered(p);
+
   return (
     <article className="card-lift group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)]">
       <div className="relative aspect-[4/3] overflow-hidden">
@@ -25,6 +30,7 @@ export function PropertyCard({ p }: { p: Property }) {
         <span className="absolute right-4 top-4 rounded-full bg-gold px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-primary-foreground">
           {p.status}
         </span>
+        {rera ? <ReraBadge className="absolute bottom-4 left-4" /> : null}
       </div>
 
       <div className="flex flex-1 flex-col p-6">
@@ -32,7 +38,27 @@ export function PropertyCard({ p }: { p: Property }) {
         <p className="mt-2 flex items-center gap-1.5 text-sm text-muted-foreground">
           <MapPin className="size-3.5" /> {p.location}, {p.city}
         </p>
+
+        {rera ? (
+          <div className="mt-3 rounded-2xl border border-emerald-600/25 bg-emerald-600/5 p-3 text-xs leading-relaxed">
+            <p className="font-semibold">RERA Reg. No. {p.reraRegistrationNumber}</p>
+            {p.projectName ? <p className="text-muted-foreground">Project: {p.projectName}</p> : null}
+            {p.developerName ? <p className="text-muted-foreground">Developer: {p.developerName}</p> : null}
+            {p.possessionStatus ? (
+              <p className="text-muted-foreground">Possession: {p.possessionStatus}</p>
+            ) : null}
+            <button
+              type="button"
+              onClick={() => setReraOpen(true)}
+              className="mt-2 inline-flex items-center gap-1.5 font-semibold text-emerald-700 underline-offset-4 hover:underline"
+            >
+              <ShieldCheck className="size-3.5" /> View RERA Details
+            </button>
+          </div>
+        ) : null}
+
         <p className="mt-4 font-display text-2xl text-gold">{p.price}</p>
+
 
         <ul className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
           {p.bedrooms > 0 ? (
