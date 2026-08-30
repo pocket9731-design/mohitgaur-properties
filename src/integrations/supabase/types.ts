@@ -62,11 +62,15 @@ export type Database = {
       properties: {
         Row: {
           amenities: string[]
+          authority_approval_status: string
           bathrooms: number
           bedrooms: number
           city: string
+          corner_property: boolean
           created_at: string
           description: string
+          developer_name: string
+          gated_society: boolean
           highlights: string[]
           id: string
           image: string
@@ -76,21 +80,38 @@ export type Database = {
           longitude: number
           name: string
           parking: number
+          parking_available: boolean
+          possession_status: string
           price: string
           price_value: number
+          project_name: string
+          rera_authority: string
+          rera_last_verified_date: string | null
+          rera_project_url: string
+          rera_registration_number: string
+          rera_status: string
+          rera_verification_status: string
+          road_facing: boolean
+          security_cctv: boolean
           size: string
           size_sqft: number
           status: string
           type: string
           updated_at: string
+          verified_developer: boolean
+          verified_listing: boolean
         }
         Insert: {
           amenities?: string[]
+          authority_approval_status?: string
           bathrooms?: number
           bedrooms?: number
           city?: string
+          corner_property?: boolean
           created_at?: string
           description?: string
+          developer_name?: string
+          gated_society?: boolean
           highlights?: string[]
           id: string
           image?: string
@@ -100,21 +121,38 @@ export type Database = {
           longitude?: number
           name: string
           parking?: number
+          parking_available?: boolean
+          possession_status?: string
           price?: string
           price_value?: number
+          project_name?: string
+          rera_authority?: string
+          rera_last_verified_date?: string | null
+          rera_project_url?: string
+          rera_registration_number?: string
+          rera_status?: string
+          rera_verification_status?: string
+          road_facing?: boolean
+          security_cctv?: boolean
           size?: string
           size_sqft?: number
           status?: string
           type?: string
           updated_at?: string
+          verified_developer?: boolean
+          verified_listing?: boolean
         }
         Update: {
           amenities?: string[]
+          authority_approval_status?: string
           bathrooms?: number
           bedrooms?: number
           city?: string
+          corner_property?: boolean
           created_at?: string
           description?: string
+          developer_name?: string
+          gated_society?: boolean
           highlights?: string[]
           id?: string
           image?: string
@@ -124,13 +162,26 @@ export type Database = {
           longitude?: number
           name?: string
           parking?: number
+          parking_available?: boolean
+          possession_status?: string
           price?: string
           price_value?: number
+          project_name?: string
+          rera_authority?: string
+          rera_last_verified_date?: string | null
+          rera_project_url?: string
+          rera_registration_number?: string
+          rera_status?: string
+          rera_verification_status?: string
+          road_facing?: boolean
+          security_cctv?: boolean
           size?: string
           size_sqft?: number
           status?: string
           type?: string
           updated_at?: string
+          verified_developer?: boolean
+          verified_listing?: boolean
         }
         Relationships: []
       }
