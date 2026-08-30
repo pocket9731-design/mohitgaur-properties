@@ -62,7 +62,25 @@ const emptyProperty = (): Property => ({
   latitude: 0,
   longitude: 0,
   createdAt: new Date().toISOString().slice(0, 10),
+  projectName: "",
+  developerName: "",
+  reraStatus: "Not Registered",
+  reraRegistrationNumber: "",
+  reraAuthority: "",
+  reraProjectUrl: "",
+  reraVerificationStatus: "Unverified",
+  reraLastVerifiedDate: null,
+  possessionStatus: "",
+  authorityApprovalStatus: "",
+  verifiedListing: false,
+  verifiedDeveloper: false,
+  gatedSociety: false,
+  parkingAvailable: false,
+  securityCctv: false,
+  roadFacing: false,
+  cornerProperty: false,
 });
+
 
 async function fetchAll(): Promise<Property[]> {
   const { data, error } = await supabase
