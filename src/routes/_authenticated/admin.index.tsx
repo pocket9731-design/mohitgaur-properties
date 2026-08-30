@@ -6,7 +6,13 @@ import { toast } from "sonner";
 import { Section } from "@/components/site/Section";
 import { B, btnStyles } from "@/components/site/buttons";
 import { supabase } from "@/integrations/supabase/client";
-import { propertyTypes, type Property } from "@/data/site";
+import {
+  propertyTypes,
+  reraStatuses,
+  reraVerificationStatuses,
+  possessionStatuses,
+  type Property,
+} from "@/data/site";
 import {
   PROPERTY_COLUMNS,
   rowToProperty,
@@ -62,7 +68,25 @@ const emptyProperty = (): Property => ({
   latitude: 0,
   longitude: 0,
   createdAt: new Date().toISOString().slice(0, 10),
+  projectName: "",
+  developerName: "",
+  reraStatus: "Not Registered",
+  reraRegistrationNumber: "",
+  reraAuthority: "",
+  reraProjectUrl: "",
+  reraVerificationStatus: "Unverified",
+  reraLastVerifiedDate: null,
+  possessionStatus: "",
+  authorityApprovalStatus: "",
+  verifiedListing: false,
+  verifiedDeveloper: false,
+  gatedSociety: false,
+  parkingAvailable: false,
+  securityCctv: false,
+  roadFacing: false,
+  cornerProperty: false,
 });
+
 
 async function fetchAll(): Promise<Property[]> {
   const { data, error } = await supabase
@@ -407,6 +431,132 @@ function PropertyForm({
           />
         </label>
       </div>
+
+      <fieldset className="mt-8 rounded-3xl border border-border p-5">
+        <legend className="px-2 text-sm font-semibold">RERA & verification</legend>
+        <p className="text-xs text-muted-foreground">
+          The RERA badge only shows publicly when status is “Registered” and a registration number is filled in.
+        </p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <label className={label}>
+            Project name
+            <input className={field} value={p.projectName} onChange={(e) => set("projectName", e.target.value)} />
+          </label>
+          <label className={label}>
+            Developer / promoter
+            <input className={field} value={p.developerName} onChange={(e) => set("developerName", e.target.value)} />
+          </label>
+          <label className={label}>
+            RERA status
+            <select
+              className={field}
+              value={p.reraStatus}
+              onChange={(e) => set("reraStatus", e.target.value as Property["reraStatus"])}
+            >
+              {reraStatuses.map((s) => (
+                <option key={s}>{s}</option>
+              ))}
+            </select>
+          </label>
+          <label className={label}>
+            RERA registration no.
+            <input
+              className={field}
+              value={p.reraRegistrationNumber}
+              onChange={(e) => set("reraRegistrationNumber", e.target.value)}
+              placeholder="UPRERAPRJ123456"
+            />
+          </label>
+          <label className={label}>
+            RERA authority
+            <input
+              className={field}
+              value={p.reraAuthority}
+              onChange={(e) => set("reraAuthority", e.target.value)}
+              placeholder="UP RERA"
+            />
+          </label>
+          <label className={label}>
+            Official RERA project URL
+            <input
+              className={field}
+              type="url"
+              value={p.reraProjectUrl}
+              onChange={(e) => set("reraProjectUrl", e.target.value)}
+              placeholder="https://up-rera.in/..."
+            />
+          </label>
+          <label className={label}>
+            Verification status
+            <select
+              className={field}
+              value={p.reraVerificationStatus}
+              onChange={(e) => set("reraVerificationStatus", e.target.value as Property["reraVerificationStatus"])}
+            >
+              {reraVerificationStatuses.map((s) => (
+                <option key={s}>{s}</option>
+              ))}
+            </select>
+          </label>
+          <label className={label}>
+            Last verified on
+            <input
+              type="date"
+              className={field}
+              value={p.reraLastVerifiedDate ?? ""}
+              onChange={(e) => set("reraLastVerifiedDate", e.target.value || null)}
+            />
+          </label>
+          <label className={label}>
+            Possession status
+            <select
+              className={field}
+              value={p.possessionStatus}
+              onChange={(e) => set("possessionStatus", e.target.value)}
+            >
+              <option value="">Not specified</option>
+              {possessionStatuses.map((s) => (
+                <option key={s}>{s}</option>
+              ))}
+            </select>
+          </label>
+          <label className={label}>
+            Authority approval
+            <input
+              className={field}
+              value={p.authorityApprovalStatus}
+              onChange={(e) => set("authorityApprovalStatus", e.target.value)}
+              placeholder="ADA approved layout"
+            />
+          </label>
+        </div>
+
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {(
+            [
+              ["verifiedListing", "Verified listing"],
+              ["verifiedDeveloper", "Verified developer"],
+              ["gatedSociety", "Gated society"],
+              ["parkingAvailable", "Parking"],
+              ["securityCctv", "Security / CCTV"],
+              ["roadFacing", "Road facing"],
+              ["cornerProperty", "Corner property"],
+            ] as const
+          ).map(([key, text]) => (
+            <label key={key} className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                className="size-4 accent-[hsl(var(--gold,45_60%_50%))]"
+                checked={p[key]}
+                onChange={(e) => set(key, e.target.checked)}
+              />
+              {text}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+
 
       <div className="mt-6">
         <p className="text-sm font-medium">Images</p>

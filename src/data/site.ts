@@ -91,6 +91,13 @@ export const locations = [
 
 export type PropertyStatus = "For Sale" | "For Rent" | "Sold";
 
+export type ReraStatus = "Registered" | "Not Registered" | "Applied" | "Expired";
+export type ReraVerificationStatus = "Verified" | "Unverified" | "Pending";
+
+export const reraStatuses: ReraStatus[] = ["Registered", "Not Registered", "Applied", "Expired"];
+export const reraVerificationStatuses: ReraVerificationStatus[] = ["Verified", "Unverified", "Pending"];
+export const possessionStatuses = ["Ready to Move", "Under Construction", "New Launch"] as const;
+
 export type Property = {
   id: string;
   name: string;
@@ -113,7 +120,31 @@ export type Property = {
   latitude: number;
   longitude: number;
   createdAt: string;
+  // RERA & verification
+  projectName: string;
+  developerName: string;
+  reraStatus: ReraStatus;
+  reraRegistrationNumber: string;
+  reraAuthority: string;
+  reraProjectUrl: string;
+  reraVerificationStatus: ReraVerificationStatus;
+  reraLastVerifiedDate: string | null;
+  possessionStatus: string;
+  authorityApprovalStatus: string;
+  verifiedListing: boolean;
+  verifiedDeveloper: boolean;
+  // features
+  gatedSociety: boolean;
+  parkingAvailable: boolean;
+  securityCctv: boolean;
+  roadFacing: boolean;
+  cornerProperty: boolean;
 };
+
+/** A property counts as RERA Registered only with an actual registration number on record. */
+export const isReraRegistered = (p: Property) =>
+  p.reraStatus === "Registered" && p.reraRegistrationNumber.trim().length > 0;
+
 
 export const agent = {
   name: site.name,
