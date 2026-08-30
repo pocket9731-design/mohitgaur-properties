@@ -104,6 +104,8 @@ export function PropertyCard({ p }: { p: Property }) {
           </a>
         </div>
       </div>
+      {reraOpen ? <ReraDetailsModal property={p} onClose={() => setReraOpen(false)} /> : null}
     </article>
+
   );
 }
