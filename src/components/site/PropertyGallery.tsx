@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { X } from "lucide-react";
-import fallbackImg from "@/assets/wallhaven-d5zkmm.jpg";
+import fallbackImg from "@/assets/prop-plots.jpg";
 
 export function PropertyGallery({ images, alt }: { images: string[]; alt: string }) {
   const list = images.length ? images : [fallbackImg];
