@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { Search, SlidersHorizontal, ShieldCheck, X, Bookmark } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Search, SlidersHorizontal, ShieldCheck, X, Bookmark, Calculator, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { Section, SectionHeading } from "@/components/site/Section";
 import { PropertyCard } from "@/components/site/PropertyCard";
@@ -467,6 +467,29 @@ function Properties() {
             </p>
           </div>
         )}
+
+        <div className="mt-10 rounded-3xl border border-gold/30 bg-gradient-to-br from-gold/10 to-gold/5 p-6 sm:p-8">
+          <div className="flex flex-col items-start gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex items-start gap-4">
+              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-gold text-primary-foreground">
+                <Calculator className="size-6" />
+              </span>
+              <div>
+                <h3 className="font-display text-xl">Plan your property budget</h3>
+                <p className="mt-1 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                  Estimate your monthly EMI before you shortlist. Enter property price, down payment, interest rate
+                  and tenure to see what fits your budget.
+                </p>
+              </div>
+            </div>
+            <Link
+              to="/emi-calculator"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              Open EMI Calculator <ArrowRight className="size-4" />
+            </Link>
+          </div>
+        </div>
       </Section>
 
       {sheetOpen ? (
