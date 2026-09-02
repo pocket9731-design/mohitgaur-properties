@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      page_views: {
+        Row: {
+          created_at: string
+          entity_id: string
+          entity_name: string
+          id: string
+          page_type: string
+          path: string
+          referrer: string
+          visitor_id: string
+        }
+        Insert: {
+          created_at?: string
+          entity_id?: string
+          entity_name?: string
+          id?: string
+          page_type?: string
+          path?: string
+          referrer?: string
+          visitor_id?: string
+        }
+        Update: {
+          created_at?: string
+          entity_id?: string
+          entity_name?: string
+          id?: string
+          page_type?: string
+          path?: string
+          referrer?: string
+          visitor_id?: string
+        }
+        Relationships: []
+      }
       project_enquiries: {
         Row: {
           admin_note: string
