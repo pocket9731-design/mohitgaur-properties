@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { Search, SlidersHorizontal, ShieldCheck, X, Bookmark } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Search, SlidersHorizontal, ShieldCheck, X, Bookmark, Calculator, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { Section, SectionHeading } from "@/components/site/Section";
 import { PropertyCard } from "@/components/site/PropertyCard";
