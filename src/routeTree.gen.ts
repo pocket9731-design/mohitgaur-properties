@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as EmiCalculatorRouteImport } from './routes/emi-calculator'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as ServicesRouteImport } from './routes/services'
@@ -53,6 +54,11 @@ const AuthRoute = AuthRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmiCalculatorRoute = EmiCalculatorRouteImport.update({
+  id: '/emi-calculator',
+  path: '/emi-calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocationsRoute = LocationsRouteImport.update({
@@ -144,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/emi-calculator': typeof EmiCalculatorRoute
   '/locations': typeof LocationsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/emi-calculator': typeof EmiCalculatorRoute
   '/locations': typeof LocationsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/emi-calculator': typeof EmiCalculatorRoute
   '/locations': typeof LocationsRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/services': typeof ServicesRoute
@@ -214,6 +223,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/emi-calculator'
     | '/locations'
     | '/privacy-policy'
     | '/services'
@@ -236,6 +246,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/emi-calculator'
     | '/locations'
     | '/privacy-policy'
     | '/services'
@@ -259,6 +270,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/contact'
+    | '/emi-calculator'
     | '/locations'
     | '/privacy-policy'
     | '/services'
@@ -283,6 +295,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  EmiCalculatorRoute: typeof EmiCalculatorRoute
   LocationsRoute: typeof LocationsRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   ServicesRoute: typeof ServicesRoute
@@ -333,6 +346,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/emi-calculator': {
+      id: '/emi-calculator'
+      path: '/emi-calculator'
+      fullPath: '/emi-calculator'
+      preLoaderRoute: typeof EmiCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/locations': {
@@ -471,6 +491,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  EmiCalculatorRoute: EmiCalculatorRoute,
   LocationsRoute: LocationsRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   ServicesRoute: ServicesRoute,
