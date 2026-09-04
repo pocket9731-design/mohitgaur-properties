@@ -31,7 +31,7 @@ export function ShareMenu({
 }: {
   url: string;
   title: string;
-  detail?: string;
+  detail?: string | undefined;
   open: boolean;
   onClose: () => void;
 }) {
