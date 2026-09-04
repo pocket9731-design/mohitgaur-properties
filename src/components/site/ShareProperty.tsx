@@ -114,9 +114,9 @@ export function ShareButton({
 }: {
   url: string;
   title: string;
-  detail?: string;
+  detail?: string | undefined;
   variant?: "pill" | "icon";
-  className?: string;
+  className?: string | undefined;
 }) {
   const [open, setOpen] = useState(false);
 
