@@ -20,6 +20,7 @@ import { PropertyCard } from "@/components/site/PropertyCard";
 import { PropertyGallery } from "@/components/site/PropertyGallery";
 import { A, btnStyles } from "@/components/site/buttons";
 import { site, agent, waLink } from "@/data/site";
+import { ShareButton } from "@/components/site/ShareProperty";
 import { fetchProperties } from "@/lib/properties.functions";
 import { similarProperties } from "@/lib/property-mapper";
 import profileImg from "@/assets/profile-mohit.jpg";
@@ -191,6 +192,11 @@ function PropertyDetail() {
             </ul>
 
             <div className="mt-8 flex flex-wrap gap-3">
+              <ShareButton
+                url={`${typeof window !== "undefined" ? window.location.origin : "https://mohitgaur.online"}/properties/${p.id}`}
+                title={`${p.name} — ${p.type} in ${p.location}, ${p.city}`}
+                detail={`${p.price} · ${p.size}`}
+              />
               <Link to="/contact" search={{ property: p.name }} className={btnStyles.gold}>
                 Contact Agent
               </Link>
