@@ -20,6 +20,7 @@ import { CtaBand } from "@/components/site/CtaBand";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { PropertyGallery } from "@/components/site/PropertyGallery";
 import { A, btnStyles } from "@/components/site/buttons";
+import { ShareButton } from "@/components/site/ShareProperty";
 import { site, agent, waLink } from "@/data/site";
 import { fetchProperties } from "@/lib/properties.functions";
 import { similarProperties } from "@/lib/property-mapper";
