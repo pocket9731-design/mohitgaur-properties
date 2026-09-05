@@ -13,6 +13,7 @@ import {
   Phone,
   Mail,
   MessageCircle,
+  Sparkles,
 } from "lucide-react";
 import { Section, SectionHeading } from "@/components/site/Section";
 import { CtaBand } from "@/components/site/CtaBand";
@@ -170,6 +171,11 @@ function PropertyDetail() {
               <MapPin className="size-4" /> {p.location}, {p.city}
             </p>
             <p className="mt-4 font-display text-3xl text-gold">{p.price}</p>
+            {p.offer ? (
+              <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-gold/10 px-3 py-1.5 text-sm font-semibold text-gold">
+                <Sparkles className="size-4" /> {p.offer}
+              </p>
+            ) : null}
 
             <dl className="mt-8 grid grid-cols-2 gap-5 border-y border-border py-6 text-sm sm:grid-cols-3">
               {facts.map((f) => (
