@@ -68,6 +68,7 @@ const emptyProperty = (): Property => ({
   latitude: 0,
   longitude: 0,
   createdAt: new Date().toISOString().slice(0, 10),
+  offer: "",
   projectName: "",
   developerName: "",
   reraStatus: "Not Registered",
