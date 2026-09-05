@@ -68,6 +68,7 @@ const emptyProperty = (): Property => ({
   latitude: 0,
   longitude: 0,
   createdAt: new Date().toISOString().slice(0, 10),
+  offer: "",
   projectName: "",
   developerName: "",
   reraStatus: "Not Registered",
@@ -377,6 +378,15 @@ function PropertyForm({
         <label className={label}>
           Price (display)
           <input className={field} value={p.price} onChange={(e) => set("price", e.target.value)} placeholder="₹1.35 Crore" />
+        </label>
+        <label className={label}>
+          Offer / tagline
+          <input
+            className={field}
+            value={p.offer}
+            onChange={(e) => set("offer", e.target.value)}
+            placeholder="e.g. Limited-time festive discount"
+          />
         </label>
         <label className={label}>
           Price in ₹ Lakh (for filters)

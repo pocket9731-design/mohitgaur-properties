@@ -120,6 +120,8 @@ export type Property = {
   latitude: number;
   longitude: number;
   createdAt: string;
+  // offer
+  offer: string;
   // RERA & verification
   projectName: string;
   developerName: string;
