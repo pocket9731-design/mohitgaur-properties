@@ -4,11 +4,14 @@ import { Link } from "@tanstack/react-router";
 import type { Property } from "@/data/site";
 import { waLink, isReraRegistered } from "@/data/site";
 import { ReraBadge, ReraDetailsModal } from "@/components/site/Rera";
+import { ShareButton } from "@/components/site/ShareProperty";
 import fallbackImg from "@/assets/prop-plots.jpg";
 
 export function PropertyCard({ p }: { p: Property }) {
   const [reraOpen, setReraOpen] = useState(false);
   const rera = isReraRegistered(p);
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://mohitgaur-properties.lovable.app";
+  const shareUrl = `${origin}/properties/${p.id}`;
 
   return (
     <article className="card-lift group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-card)]">
@@ -30,6 +33,12 @@ export function PropertyCard({ p }: { p: Property }) {
         <span className="absolute right-14 top-4 rounded-full bg-gold px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-primary-foreground">
           {p.status}
         </span>
+        <ShareButton
+          variant="icon"
+          url={shareUrl}
+          title={`${p.name} — ${p.location}, ${p.city}`}
+          detail={`${p.price} · ${p.size}`}
+        />
         {rera ? <ReraBadge className="absolute bottom-4 left-4" /> : null}
       </div>
 
