@@ -28,6 +28,7 @@ export type PropertyRow = {
   latitude: number;
   longitude: number;
   created_at: string;
+  offer: string;
   project_name: string;
   developer_name: string;
   rera_status: string;
@@ -48,7 +49,7 @@ export type PropertyRow = {
 };
 
 export const PROPERTY_COLUMNS =
-  "id,name,location,city,type,size,size_sqft,price,price_value,image,images,highlights,description,status,bedrooms,bathrooms,parking,amenities,latitude,longitude,created_at,project_name,developer_name,rera_status,rera_registration_number,rera_authority,rera_project_url,rera_verification_status,rera_last_verified_date,possession_status,authority_approval_status,verified_listing,verified_developer,gated_society,parking_available,security_cctv,road_facing,corner_property";
+  "id,name,location,city,type,size,size_sqft,price,price_value,image,images,highlights,description,status,bedrooms,bathrooms,parking,amenities,latitude,longitude,created_at,offer,project_name,developer_name,rera_status,rera_registration_number,rera_authority,rera_project_url,rera_verification_status,rera_last_verified_date,possession_status,authority_approval_status,verified_listing,verified_developer,gated_society,parking_available,security_cctv,road_facing,corner_property";
 
 export const FALLBACK_IMAGE = "/images/prop-plots.jpg";
 
