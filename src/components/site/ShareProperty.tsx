@@ -8,7 +8,7 @@ type ShareTarget = {
   href: string;
 };
 
-export function shareTargets(url: string, title: string, detail?: string): ShareTarget[] {
+export function shareTargets(url: string, title: string, detail?: string | undefined): ShareTarget[] {
   const text = detail ? `${title} — ${detail}` : title;
   const full = `${text}\n${url}`;
   const enc = encodeURIComponent;
@@ -30,7 +30,7 @@ export function ShareMenu({
 }: {
   url: string;
   title: string;
-  detail?: string;
+  detail?: string | undefined;
   onClose: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -113,7 +113,7 @@ export function ShareButton({
 }: {
   url: string;
   title: string;
-  detail?: string;
+  detail?: string | undefined;
   variant?: "pill" | "icon";
 }) {
   const [open, setOpen] = useState(false);
