@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Maximize2, MessageCircle, BedDouble, Bath, ShieldCheck } from "lucide-react";
+import { MapPin, Maximize2, MessageCircle, BedDouble, Bath, ShieldCheck, Sparkles } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import type { Property } from "@/data/site";
 import { waLink, isReraRegistered } from "@/data/site";
@@ -59,6 +59,11 @@ export function PropertyCard({ p }: { p: Property }) {
 
         <p className="mt-4 font-display text-2xl text-gold">{p.price}</p>
 
+        {p.offer ? (
+          <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-gold/10 px-3 py-1.5 text-xs font-semibold text-gold">
+            <Sparkles className="size-3.5" /> {p.offer}
+          </p>
+        ) : null}
 
         <ul className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
           {p.bedrooms > 0 ? (
