@@ -112,6 +112,7 @@ export type Database = {
           location: string
           longitude: number
           name: string
+          offer: string
           parking: number
           parking_available: boolean
           possession_status: string
@@ -153,6 +154,7 @@ export type Database = {
           location?: string
           longitude?: number
           name: string
+          offer?: string
           parking?: number
           parking_available?: boolean
           possession_status?: string
@@ -194,6 +196,7 @@ export type Database = {
           location?: string
           longitude?: number
           name?: string
+          offer?: string
           parking?: number
           parking_available?: boolean
           possession_status?: string
