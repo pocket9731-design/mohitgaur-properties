@@ -380,6 +380,15 @@ function PropertyForm({
           <input className={field} value={p.price} onChange={(e) => set("price", e.target.value)} placeholder="₹1.35 Crore" />
         </label>
         <label className={label}>
+          Offer / tagline
+          <input
+            className={field}
+            value={p.offer}
+            onChange={(e) => set("offer", e.target.value)}
+            placeholder="e.g. Limited-time festive discount"
+          />
+        </label>
+        <label className={label}>
           Price in ₹ Lakh (for filters)
           <input type="number" className={field} value={p.priceValue} onChange={(e) => set("priceValue", Number(e.target.value))} />
         </label>
