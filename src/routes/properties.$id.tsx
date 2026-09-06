@@ -173,7 +173,7 @@ function PropertyDetail() {
             </p>
             <p className="mt-4 font-display text-3xl text-gold">{p.price}</p>
             {p.offer ? (
-              <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-gold/10 px-3 py-1.5 text-sm font-semibold text-gold">
+              <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-teal-soft px-3 py-1.5 text-sm font-semibold text-teal">
                 <Sparkles className="size-4" /> {p.offer}
               </p>
             ) : null}
